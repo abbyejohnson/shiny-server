@@ -100,28 +100,43 @@ server = function(input, output, session) {
       
     }else if(input$var == "DB_WT"){
       mbreaks <- c(-200, 0, 25, 50, 75, 100, max.val)
+      mbreaks2 <- seq(-50, (max.val+25), by = 25)
       clrs <- brewer.pal(length(mbreaks), "PuOr")
+      clrs2 <- brewer.pal(length(mbreaks2), "PuOr")
       pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks)
+      pal2 <- colorBin(palette = clrs2, domain = fill.vals, bins = mbreaks2)
       
     }else if(input$var == "ROWCROP"){
       mbreaks <- c(0, 0.25, 0.50, 0.75, max.val)
+      mbreaks2 <- seq(0, (max.val+.10), by = .10)
       clrs <- rev(brewer.pal(length(mbreaks), "RdYlGn"))
+      clrs2 <- rev(brewer.pal(length(mbreaks2), "RdYlGn"))
       pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks) 
+      pal2 <- colorBin(palette = clrs2, domain = fill.vals, bins = mbreaks2) 
       
     }else if(input$var == "DAIRY_PERC"){
       mbreaks <- c(0, 0.25, 0.50, 0.75, max.val)
+      mbreaks2 <- seq(0, (max.val+.10), by = .10)
       clrs <- rev(brewer.pal(length(mbreaks), "RdYlGn"))
-      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks)   
+      clrs2 <- rev(brewer.pal(length(mbreaks2), "RdYlGn"))
+      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks) 
+      pal2 <- colorBin(palette = clrs2, domain = fill.vals, bins = mbreaks2) 
       
     }else if(input$var == "AG_HAY_PAST"){
       mbreaks <- c(0, 0.25, 0.50, 0.75, max.val)
+      mbreaks2 <- seq(0, (max.val+.10), by = .10)
       clrs <- rev(brewer.pal(length(mbreaks), "RdYlGn"))
-      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks)   
+      clrs2 <- rev(brewer.pal(length(mbreaks2), "RdYlGn"))
+      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks) 
+      pal2 <- colorBin(palette = clrs2, domain = fill.vals, bins = mbreaks2)
       
     }else if(input$var == "HAY_PAST"){
       mbreaks <- c(0, 0.25, 0.50, 0.75, max.val)
+      mbreaks2 <- seq(0, (max.val+.10), by = .10)
       clrs <- rev(brewer.pal(length(mbreaks), "RdYlGn"))
-      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks)   
+      clrs2 <- rev(brewer.pal(length(mbreaks2), "RdYlGn"))
+      pal <- colorBin(palette = clrs, domain = fill.vals, bins = mbreaks) 
+      pal2 <- colorBin(palette = clrs2, domain = fill.vals, bins = mbreaks2)
       
     }else if(input$var == "weighted.rank"){
       mbreaks <- c(1, 2, 3, 4, 5, 6, 7)
@@ -594,7 +609,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br><strong>Casing depth below the water tabled (ft)</strong>",
                                      "<br>Average: ", round(shape@data$DB_WT,1),
@@ -603,7 +618,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", shape@data$DB_WT_med,
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal2, values = fill.vals, title = "Depth Below Water Table (ft)", opacity = 1)    
         
       }else if (input$var == "ROWCROP"){
         
@@ -616,7 +631,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br>Precent Row Crop Agriculture (500 m buffer)</strong>",
                                      "<br>Average: ", round(shape@data$ROWCROP,2),
@@ -625,7 +640,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", round(shape@data$ROWCROP_med,2),
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal2, values = fill.vals, title = "Percent Row Crops (500 m buffer)", opacity = 1)    
       
       }else if (input$var == "DAIRY_PERC"){
         
@@ -638,7 +653,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br>Precent Dairy Rotation (500 m buffer)</strong>",
                                      "<br>Average: ", round(shape@data$DAIRY_PERC,2),
@@ -647,7 +662,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", round(shape@data$DAIRY_PERC_med,2),
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal2, values = fill.vals, title = "Percent Dairy Rotation (500 m buffer)", opacity = 1)    
         
         
       }else if (input$var == "HAY_PAST"){
@@ -661,7 +676,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br>Precent Hay/Pasture (500 m buffer)</strong>",
                                      "<br>Average: ", round(shape@data$HAY_PAST,2),
@@ -670,7 +685,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", round(shape@data$HAY_PAST_med,2),
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal2, values = fill.vals, title = "Percent Hay/Pasture (500 m buffer)", opacity = 1)    
         
       }else if (input$var == "AG_HAY_PAST"){
         
@@ -683,7 +698,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br>Precent All Agriculture (500 m buffer)</strong>",
                                      "<br>Average: ", round(shape@data$AG_HAY_PAST,2),
@@ -692,7 +707,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", round(shape@data$AG_HAY_PAST_med,2),
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal2, values = fill.vals, title = "Percent All Agriculture (500 m buffer)", opacity = 1)    
         
          
       }else if (input$var == "weighted.rank"){
@@ -723,7 +738,7 @@ server = function(input, output, session) {
                                                                                       ifelse(df$weighted.rank > 6.5, "Excessively Drained", 
                                                                                              ifelse(is.na(df$weighted.rank),"Not Available",9999))))))))),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal, values = fill.vals, title = paste(input$var), opacity = 1)    
+          addLegend("bottomleft", pal = pal, values = fill.vals, title = "Soil Drainage Rank (500 m buffer)", opacity = 1)    
       
       }else if (input$var == "Top.Bedrock"){
         
@@ -985,7 +1000,7 @@ server = function(input, output, session) {
       ggplot(df2, aes(x = YEAR, y = Nitrate)) +
         geom_point(size = 3, color = "black") +
         geom_line(color = "blue") +
-        ylim(0,30) +
+        ylim(0,max(df2$Nitrate)+10) +
         geom_hline(yintercept = 10 , linetype = "dashed" , color = "red") +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
@@ -1008,7 +1023,7 @@ server = function(input, output, session) {
       ggplot(df2, aes(x = YEAR, y = Chloride)) +
         geom_point(size = 3, color = "black") +
         geom_line(color = "blue") +
-        scale_y_log10(limits = c(0.05,500)) +
+        ylim(0.0,max(df2$Chloride)+10) +
         #annotation_logticks(sides = "l") +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
@@ -1031,7 +1046,7 @@ server = function(input, output, session) {
       ggplot(df2, aes(x = YEAR, y = Alkalinity)) +
         geom_point(size = 3, color = "black") +
         geom_line(color = "blue") +
-        ylim(0,500) +
+        ylim(0,550) +
         xlab("Year") +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
@@ -1055,7 +1070,7 @@ server = function(input, output, session) {
       ggplot(df2, aes(x = YEAR, y = Conductivity)) +
         geom_point(size = 3, color = "black") +
         geom_line(color = "blue") +
-        ylim(200,1200) +
+        ylim(min(df2$Conductivity)-50,max(df2$Conductivity)+50) +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1), axis.title = element_text(size = 11.5, face="bold")) +
@@ -1078,7 +1093,7 @@ server = function(input, output, session) {
       ggplot(df2, aes(x = YEAR, y = Total.Hardness)) +
         geom_point(size = 3, color = "black") +
         geom_line(color = "blue") +
-        ylim(0,600) +
+        ylim(min(df2$Total.Hardness)-50,max(df2$Total.Hardness)+50) +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1), axis.title = element_text(size = 11.5, face="bold")) +
