@@ -62,7 +62,7 @@ ui = fluidPage(
                               annual testing for a period of five years."),
                               tags$ul
                                       (tags$li("2020 - 376 well owners participated in Year 1"),
-                                      tags$li("2021 - 354 well owners participated in Year 3")
+                                      tags$li("2021 - 354 well owners participated in Year 2")
                                         ),
                               tags$p("The information collected through these efforts will be used to analyze 
                               where and what factors may be contributing to any changes in groundwater quality observed over time.  
