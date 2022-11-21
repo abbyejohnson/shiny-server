@@ -35,4 +35,4 @@ source('Server.R', local = TRUE)
 
 
 # Run the application
-shinyApp(ui = UI, server = SERVER)
+#shinyApp(ui = UI, server = SERVER)
