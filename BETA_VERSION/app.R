@@ -30,7 +30,7 @@ diagram1 <- tags$a(href='https://acsess.onlinelibrary.wiley.com/doi/pdfdirect/10
 soil_drain <- soil %>% select(Soil.Drainage.Classification) %>% slice(1:5)
 
 
-source('User_Interface.R', local = TRUE)
+source('ui.R', local = TRUE)
 source('Server.R', local = TRUE)
 
 
