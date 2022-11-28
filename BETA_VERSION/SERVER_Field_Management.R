@@ -1,20 +1,20 @@
 output$OP_value1 <- renderUI({
-  #Delete this section if code breaks
-  # legume <- crops %>%
-  #  filter(Crop.Type == input$crop1 & Category == input$units1) %>%
-  #  select(Legume)
+
+  legume1 <- crops %>%
+   filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+   select(Legume)
+  
   N_unit1 <- crops %>%
      filter(Crop.Type == input$crop1 & Category == input$units1) %>%
      select(N.Per.Unit)
    harvMat1 <- N_unit1 * input$yield1
   
   ####
-  # if (legume > 0){
-  #  leg1 <- 0.6*harvMat1
-  # } else{
-  #  leg1 <- 0
-  # }
-  # 
+  if (legume1 > 0){
+   leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+  } else{
+   leg1_est <- 0
+  }
   ###
   
   
@@ -29,8 +29,8 @@ output$OP_value1 <- renderUI({
   nonsymbioticFixation1 <- 3
   
   # Inputs
-  inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
-  #inputTotal1 <- input$fert1 + input$man1 + leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+  #inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+  inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
   
   
   
@@ -94,7 +94,25 @@ output$OP_value1 <- renderUI({
 
 output$OP_value2 <- renderUI({
   {
-    # Getting Input Value for final calulation
+    legume2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(Legume)
+    
+    N_unit2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(N.Per.Unit)
+    
+    harvMat2 <- N_unit2 * input$yield2
+    
+    ####
+    if (legume2 > 0){
+      leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+    } else{
+      leg2_est <- 0
+    }
+    ###
+    
+    # Getting Input Value for final calculation
     if (input$irr == 1){
       irrigation <- input$irri * input$irrInch * 0.226
     } else{
@@ -103,13 +121,13 @@ output$OP_value2 <- renderUI({
     precipitation <- input$precip * input$InchPre * 0.226
     cropSeed2 <- 0
     nonsymbioticFixation2 <- 3
-    # Inputs
-    inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
     
-    N_unit2 <- crops %>%
-      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
-      select(N.Per.Unit)
-    harvMat2 <- N_unit2 * input$yield2
+    # Inputs
+    inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+    
+
+    
+
     perLoss2 <- fert %>%
       filter(Fertilizer.N.Source == input$fertform2 & Application.Method == input$appMeth2) %>%
       select(Percent.Lost)
@@ -175,13 +193,26 @@ output$OP_value3 <- renderUI({
     precipitation <- input$precip * input$InchPre * 0.226
     cropSeed1 <- 0
     nonsymbioticFixation1 <- 3
-    # Inputs
-    inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
     
     N_unit1 <- crops %>%
       filter(Crop.Type == input$crop1 & Category == input$units1) %>%
       select(N.Per.Unit)
+    ##Added legume routine
+    legume1 <- crops %>%
+      filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+      select(Legume)
+    ###
     harvMat1 <- N_unit1 * input$yield1
+    
+    if (legume1 > 0){
+      leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+    } else{
+      leg1_est <- 0
+    }
+    
+    # Inputs
+    inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+    
     perLoss1 <- fert %>%
       filter(Fertilizer.N.Source == input$fertform1 & Application.Method == input$appMeth1) %>%
       select(Percent.Lost)
@@ -256,6 +287,24 @@ output$OP_value3 <- renderUI({
 
 output$OP_value4 <- renderUI({
   {
+    legume2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(Legume)
+    
+    N_unit2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(N.Per.Unit)
+    
+    harvMat2 <- N_unit2 * input$yield2
+    
+    if (legume2 > 0){
+      leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+    } else{
+      leg2_est <- 0
+    }
+    
+    
+    
     # Getting Input Value for final calulation
     if (input$irr == 1){
       irrigation <- input$irri * input$irrInch * 0.226
@@ -266,12 +315,10 @@ output$OP_value4 <- renderUI({
     cropSeed2 <- 0
     nonsymbioticFixation2 <- 3
     # Inputs
-    inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+    inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
     
-    N_unit2 <- crops %>%
-      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
-      select(N.Per.Unit)
-    harvMat2 <- N_unit2 * input$yield2
+
+    
     perLoss2 <- fert %>%
       filter(Fertilizer.N.Source == input$fertform2 & Application.Method == input$appMeth2) %>%
       select(Percent.Lost)
@@ -348,6 +395,23 @@ output$OP_value4 <- renderUI({
 
 output$OP_value5 <- renderUI({
   {
+    N_unit1 <- crops %>%
+      filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+      select(N.Per.Unit)
+    
+    ##Added legume routine
+    legume1 <- crops %>%
+      filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+      select(Legume)
+    ###
+    harvMat1 <- N_unit1 * input$yield1
+    
+    if (legume1 > 0){
+      leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+    } else{
+      leg1_est <- 0
+    }
+    
     # Getting Input Value for final calulation
     if (input$irr == 1){
       irrigation <- input$irri * input$irrInch * 0.226
@@ -358,12 +422,13 @@ output$OP_value5 <- renderUI({
     cropSeed1 <- 0
     nonsymbioticFixation1 <- 3
     # Inputs
-    inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+    inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
     
     N_unit1 <- crops %>%
       filter(Crop.Type == input$crop1 & Category == input$units1) %>%
       select(N.Per.Unit)
     harvMat1 <- N_unit1 * input$yield1
+    
     perLoss1 <- fert %>%
       filter(Fertilizer.N.Source == input$fertform1 & Application.Method == input$appMeth1) %>%
       select(Percent.Lost)
@@ -415,6 +480,22 @@ output$OP_value5 <- renderUI({
   }
   {
     # Getting Input Value for final calulation
+    legume2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(Legume)
+    
+    N_unit2 <- crops %>%
+      filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+      select(N.Per.Unit)
+    
+    harvMat2 <- N_unit2 * input$yield2
+    
+    if (legume2 > 0){
+      leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+    } else{
+      leg2_est <- 0
+    }
+    
     if (input$irr == 1){
       irrigation <- input$irri * input$irrInch * 0.226
     } else{
@@ -424,7 +505,7 @@ output$OP_value5 <- renderUI({
     cropSeed2 <- 0
     nonsymbioticFixation2 <- 3
     # Inputs
-    inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+    inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
     
     N_unit2 <- crops %>%
       filter(Crop.Type == input$crop2 & Category == input$units2) %>%
@@ -492,6 +573,23 @@ output$OP_value5 <- renderUI({
 output$OP_value6 <- renderUI({
   {
     {
+      N_unit1 <- crops %>%
+        filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+        select(N.Per.Unit)
+      
+      ##Added legume routine
+      legume1 <- crops %>%
+        filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+        select(Legume)
+      ###
+      harvMat1 <- N_unit1 * input$yield1
+      
+      if (legume1 > 0){
+        leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+      } else{
+        leg1_est <- 0
+      }
+      
       # Getting Input Value for final calulation
       if (input$irr == 1){
         irrigation <- input$irri * input$irrInch * 0.226
@@ -502,7 +600,7 @@ output$OP_value6 <- renderUI({
       cropSeed1 <- 0
       nonsymbioticFixation1 <- 3
       # Inputs
-      inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+      inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
       
       N_unit1 <- crops %>%
         filter(Crop.Type == input$crop1 & Category == input$units1) %>%
@@ -559,6 +657,22 @@ output$OP_value6 <- renderUI({
     }
     {
       # Getting Input Value for final calulation
+      legume2 <- crops %>%
+        filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+        select(Legume)
+      
+      N_unit2 <- crops %>%
+        filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+        select(N.Per.Unit)
+      
+      harvMat2 <- N_unit2 * input$yield2
+      
+      if (legume2 > 0){
+        leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+      } else{
+        leg2_est <- 0
+      }
+      
       if (input$irr == 1){
         irrigation <- input$irri * input$irrInch * 0.226
       } else{
@@ -568,7 +682,7 @@ output$OP_value6 <- renderUI({
       cropSeed2 <- 0
       nonsymbioticFixation2 <- 3
       # Inputs
-      inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+      inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
       
       N_unit2 <- crops %>%
         filter(Crop.Type == input$crop2 & Category == input$units2) %>%
@@ -649,6 +763,7 @@ output$unit_selection1 <- renderUI({
               NULL,
               choices = units1$Category)
 })
+
 
 output$unit_selection2 <- renderUI({
   units2 <- filter(crops, Crop.Type == input$crop2)
@@ -858,16 +973,39 @@ output$rhot2 <- renderRHandsontable({
     irrigation <- 0 
   }
   
-  ####
-  #legume <- crops %>% 
-  #  filter(Crop.Type == input$crop1 & Category == input$units1) %>%
-  #  select(Legume)
+  ####Needed to calculate legume
+  N_unit1 <- crops %>%
+    filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+    select(N.Per.Unit)
+  N_unit1 <- round(N_unit1, digits = 1)
+  harvMat1 <- N_unit1 * input$yield1
+  legume1 <- crops %>%
+   filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+   select(Legume)
   
-  #if (legume > 0){
-  #  leg1 <- 0.6*harvMat1
-  #} else{
-  #  leg1 <- 0
-  #}
+  if (legume1 > 0){
+   leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+  } else{
+   leg1_est <- 0
+  }
+  ######
+  
+  ####Needed to calculate legume
+  N_unit2 <- crops %>%
+    filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+    select(N.Per.Unit)
+  N_unit2 <- round(N_unit2, digits = 1)
+  harvMat2 <- N_unit2 * input$yield2
+  legume2 <- crops %>%
+    filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+    select(Legume)
+  
+  if (legume2 > 0){
+    leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+  } else{
+    leg2_est <- 0
+  }
+  ######
   
   precipitation <- round((input$precip * input$InchPre * 0.226), digits = 1) 
   
@@ -877,13 +1015,13 @@ output$rhot2 <- renderRHandsontable({
   nonsymbioticFixation1 <- 3
   nonsymbioticFixation2 <- 3
   
-  inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+  inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
   inputTotal1 <- round(inputTotal1, digits = 1)
-  inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+  inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
   inputTotal2 <- round(inputTotal2, digits = 1)
   
-  cop_info <- matrix(c("Scenario 1", input$fert1, input$man1, input$leg1, irrigation, precipitation, precipitation, 0, 3, inputTotal1, 
-                       "Scenario 2", input$fert2, input$man2, input$leg2, irrigation, precipitation, precipitation, 0, 3, inputTotal2), 
+  cop_info <- matrix(c("Scenario 1", input$fert1, input$man1, leg1_est, irrigation, precipitation, precipitation, 0, 3, inputTotal1, 
+                       "Scenario 2", input$fert2, input$man2, leg2_est, irrigation, precipitation, precipitation, 0, 3, inputTotal2), 
                      nrow = 10, ncol = 2, 
                      dimnames = list(c("","Fertilizer", "Manure", "Symbiotic N fixation (legumes)", "Irrigation", "Precipitation", "Dry Deposition", "Crop Seed", "Nonsymbiotic Fixation", "Total N Input Per Acre")))
   rhandsontable(cop_info, 
@@ -897,13 +1035,36 @@ output$rhot3 <- renderRHandsontable({
     filter(Crop.Type == input$crop1 & Category == input$units1) %>%
     select(N.Per.Unit)
   N_unit1 <- round(N_unit1, digits = 1)
+  
+  harvMat1 <- N_unit1 * input$yield1
+  
+  legume1 <- crops %>%
+    filter(Crop.Type == input$crop1 & Category == input$units1) %>%
+    select(Legume)
+  
+  if (legume1 > 0){
+    leg1_est <- (0.7*harvMat1)+0.5*(0.7*harvMat1)
+  } else{
+    leg1_est <- 0
+  }
+  
   N_unit2 <- crops %>%
     filter(Crop.Type == input$crop2 & Category == input$units2) %>%
     select(N.Per.Unit)
   N_unit2 <- round(N_unit2, digits = 1)
   
-  harvMat1 <- N_unit1 * input$yield1
   harvMat2 <- N_unit2 * input$yield2
+  
+  legume2 <- crops %>%
+    filter(Crop.Type == input$crop2 & Category == input$units2) %>%
+    select(Legume)
+  
+  if (legume2 > 0){
+    leg2_est <- (0.7*harvMat2)+0.5*(0.7*harvMat2)
+  } else{
+    leg2_est <- 0
+  }
+
   
   perLoss1 <- fert %>%
     filter(Fertilizer.N.Source == input$fertform1 & Application.Method == input$appMeth1) %>%
@@ -933,9 +1094,9 @@ output$rhot3 <- renderRHandsontable({
   
   precipitation <- input$precip * input$InchPre * 0.226
   
-  inputTotal1 <- input$fert1 + input$man1 + input$leg1 + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
+  inputTotal1 <- input$fert1 + input$man1 + leg1_est + irrigation + precipitation + precipitation + cropSeed1 + nonsymbioticFixation1
   inputTotal1 <- round(inputTotal1, digits = 1)
-  inputTotal2 <- input$fert2 + input$man2 + input$leg2 + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
+  inputTotal2 <- input$fert2 + input$man2 + leg2_est + irrigation + precipitation + precipitation + cropSeed2 + nonsymbioticFixation2
   inputTotal2 <- round(inputTotal2, digits = 1)
   
   perInoDent <- soil %>%
