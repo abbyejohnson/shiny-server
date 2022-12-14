@@ -1,0 +1,16 @@
+Organic Matter Content,Soil Drainage Classification,Percent of inorganic denitrified,Inches Recharge,Organic N Storage
+<2%,Excessively well drained,3,12,-7.5
+<2%,Well drained,6,10,-7.5
+<2%,Moderately well drained,9,8,-7.5
+<2%,Somewhat poorly drained,13,6,-7.5
+<2%,Poorly drained,20,4,-7.5
+2-5%,Excessively well drained,6,12,-17
+2-5%,Well drained,10,10,-17
+2-5%,Moderately well drained,13,8,-17
+2-5%,Somewhat poorly drained,17.5,6,-17
+2-5%,Poorly drained,30,4,-17
+>5%,Excessively well drained,8,12,-37.5
+>5%,Well drained,13,10,-37.5
+>5%,Moderately well drained,17.5,8,-37.5
+>5%,Somewhat poorly drained,25,6,-37.5
+>5%,Poorly drained,40,4,-37.5
