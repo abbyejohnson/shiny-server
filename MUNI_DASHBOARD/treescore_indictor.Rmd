@@ -1,0 +1,10 @@
+---
+title: "treescore_indicator"
+output: pdf_document
+---
+
+```{r, echo = FALSE, include = FALSE}
+a <- rnorm(100)
+b <- a + rnorm(100)
+plot(b ~ a)
+```
