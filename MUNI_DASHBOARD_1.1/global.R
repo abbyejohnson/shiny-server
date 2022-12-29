@@ -10,6 +10,7 @@ library(shinydashboard)
 # library(flexdashboard)
 library(dplyr)
 # library(zipcodeR)
+library(rlang)
 library(tidyverse)
 library(shinyBS)
 library(shinyalert)
@@ -30,19 +31,25 @@ library(readxl)
 #------------------------------------------------------------------------------------------------------------------------
 #read in data
 
-dataDir <- "C:/Users/abjohnso/OneDrive - UWSP/Documents/Data Requests/MUNI_DASHBOARD_1.1/"
+fips<-read.csv("fips.csv")
+myzips<-read.csv("zipcodes.csv", fileEncoding="UTF-8-BOM")
+popdata<-read.csv("sub-est2018_all.csv")
+#read in data for visualization
+data <- read.csv("TreeScoreDataset.csv")
+region <-read.csv("TreeScoreValues.csv")
+
+#dataDir <- "C:/Users/abjohnso/OneDrive - UWSP/Documents/Data Requests/MUNI_DASHBOARD_1.1/"
 #dataDir <- "C:/Users/kmasarik/OneDrive - UWSP/MASARIK/R_CODE/MUNI_DASHBOARD/MUNI_DASHBOARD/"
 #dataDir <- "C:/Users/Grant/GroundWaterCenter/MUNI_DASHBOARD/"
-
- fips<-read.csv(paste(dataDir, "fips.csv", sep = ""))
+#fips<-read.csv(paste(dataDir, "fips.csv", sep = ""))
 #fips<-read.csv("C:/Users/Grant/GroundWaterCenter/MUNI_DASHBOARD/fips.csv")
 
 
-myzips<-read.csv(paste(dataDir, "zipcodes.csv", sep = ""), fileEncoding="UTF-8-BOM")
-popdata<-read.csv(paste(dataDir, "sub-est2018_all.csv", sep = ""))
+#myzips<-read.csv(paste(dataDir, "zipcodes.csv", sep = ""), fileEncoding="UTF-8-BOM")
+#popdata<-read.csv(paste(dataDir, "sub-est2018_all.csv", sep = ""))
 #read in data for visualization
-data <- read.csv(paste(dataDir, "TreeScoreDataset.csv", sep = ""))
-region <-read.csv(paste(dataDir, "TreeScoreValues.csv", sep = ""))
+#data <- read.csv(paste(dataDir, "TreeScoreDataset.csv", sep = ""))
+#region <-read.csv(paste(dataDir, "TreeScoreValues.csv", sep = ""))
 
 #------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------
