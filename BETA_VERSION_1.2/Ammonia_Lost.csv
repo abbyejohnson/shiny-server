@@ -1,0 +1,16 @@
+Fertilizer N Source,Application Method,Percent Lost
+Urea or UAN / Soil pH > 7,Surface Broadcast,15
+Urea or UAN / Soil pH > 7,Surface Dribble,10
+Urea or UAN / Soil pH > 7,Incorporated,5
+Ammonium Sulfate / Soil pH > 7,Surface Broadcast,25
+Ammonium Sulfate / Soil pH > 7,Incorporated,10
+Ammonium Nitrate / Soil pH > 7,Surface Broadcast,12.5
+Ammonium Nitrate / Soil pH > 7,Incorporated,7.5
+Anhydrous Ammonia / Soil pH > 7,Injected,1.5
+Urea / Soil pH < 7,Surface Broadcast,15
+Urea / Soil pH < 7,Surface Dribble,10
+Urea / Soil pH < 7,Incorporated,1
+UAN / Soil pH < 7,Surface Broadcast,7.5
+UAN / Soil pH < 7,Surface Dribble,5
+UAN / Soil pH < 7,Incorporated,1
+All other N sources / soil pH < 7,Any Method,1
