@@ -1,0 +1,806 @@
+---
+title: "Nitrate_Trends_Data_Cleaning"
+author: "Grant Moser"
+date: '2023-03-14'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+# Install Needed Packages
+```{r}
+list.of.packages<-c("ggplot2","lubridate", "plyr", "dplyr", "gridExtra",  "car", "grid", "openxlsx", "Hmisc", "zoo",
+                    "DescTools", "birk", "data.table", "stringr", "sp", "spatstat", "maptools", "smacpod", "RColorBrewer",
+                    "cartography", "sf", "ggmap", "rgdal", "raster", "SpatialPosition", "plotly", "mapproj",
+                    "leaflet", "zyp")
+new.packages<-list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+
+
+# Declare packages being used
+```{r}
+library(ggplot2)
+library(lubridate)
+library(plyr)
+library(dplyr)
+library(gridExtra)
+library(car)
+library(grid)
+library(openxlsx)
+library(Hmisc)
+library(zoo)
+library(DescTools)
+library(birk)
+library(data.table)
+library(stringr)
+library(sp)
+library(spatstat)
+library(maptools)
+library(smacpod)
+library(RColorBrewer)
+library(cartography)
+library(sf)
+library(ggmap)
+library(rgdal)
+library(raster)
+library(SpatialPosition)
+library(plotly)
+library(mapproj)
+library(leaflet)
+library(zyp)
+```
+
+
+# Scripting Options
+```{r}
+# Causes all data to be in standard notation vs scientific notation throughout code
+  options(scipen = 999)
+
+```
+
+
+# Variable arguements throughout the code
+```{r cars}
+  # Minimum number of samples(years) required to use the well in data 
+  # This number is used at two different points in code. Will always remain equal.
+    'minwells' <- 6
+  
+  
+  #Subset data to include only those wells that are currently being sampled.
+  #If the most recent sample date for any well is before the date below, we assume the well is out of use and we throw it out. 
+  #In 2019/20, we had it at 2015-01-01. Recommended that you move it up one year at a time with the 'recentyear' variable.
+  #The 'recentyear' variable should be 2-3 year ahead of this variable
+  #Keep the format 'YYYY-MM-DD'
+    'recentdate' <- '2020-01-01'
+  
+    
+  # Start year of data. I DONT RECCOMEND CHANGING IT FROM 1995. Data is very inconsistent pre 1995
+    'startyear' <- 1995
+  
+    
+  # Most recent year that data is collected and ready for use. 
+  # Make sure to change 'recentdate' if needed
+    'recentyear' <- 2022
+  
+  
+  # This is for our nitrate trends over time when looking at entire couties. 
+  # We want to make sure that we are only looking at wells that have long lifespans when we study long-term nitrate changes.
+  # This wont effect individual well trends, just county level trends over time.
+  # In 2019/2020, when we started the project, we had it set to 20 years.
+    'wellyears' <- 20
+  
+```
+
+# Read in data files and combine into one big dataframe
+```{r}
+  # Call in files, skip first line of headers, header=FALSE means that 1st row is treated as data rather than header
+    tnc <-read.csv("new_master_tnc.csv", header=TRUE)
+    otm <-read.csv("new_master_otm.csv", header=TRUE)
+    muni <-read.csv("new_master_muni.csv", header=TRUE)
+    ntnc <-read.csv("new_master_ntnc.csv", header=TRUE)
+  
+  # Read in spacial data frame of Wisconsin counties
+    counties <- readRDS("County_Dont_Delete.rds")
+
+  # Combine tnc, otm, muni, and ntnc to create one big data with all samples
+    otm$LOQ <- as.factor(otm$LOQ)
+    df <- bind_rows(tnc , otm , muni , ntnc , .id=NULL)
+    
+  # Changing these values from factor to numeric
+    df$LOQ <- as.numeric(as.character(df$LOQ))
+    df$LOD <- as.numeric(as.character(df$LOD))
+    
+  # Eliminate any duplicates rows. This is will ONLY get rid of rows that are entirely the same.
+    df <- unique(df)
+```
+
+
+# Hard coded changes to deal with some issues. 
+```{r}
+  # Change the County of St. Croix to Saint Croix to match future elements
+    df$County.name <- as.character(df$County.name)
+    df$County.name <- if_else(df$County.name == "St. Croix", "Saint Croix", df$County.name)
+    df$County.name <- ifelse(df$County.name == "St Croix", "Saint Croix", df$County.name)
+    
+  # Change Fond Du Lac to Fond du Lac to match future elements
+    df$County.name <- ifelse(df$County.name == "Fond Du Lac", "Fond du Lac", df$County.name)
+  
+  # # Filling in for missing county variables
+    df$County.name <- ifelse(df$WI.unique.well.. == 'SO619', "Adams", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'PS410', "Juneau", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BF698', "Door", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BG894', "Sauk", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BO646', "Ozaukee", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'EZ642', "Adams", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'EZ643', "Adams", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'EZ644', "Adams", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'GS117', "Ashland", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'JF699', "Door", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'PX372', "Ashland", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'SO621', "Sauk", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'YT261', "Oneida", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BO645', "Ozaukee", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'GS182', "Ashland", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'GT424', "Iron", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'GQ969', "Door", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BO464', "Sauk", df$County.name)
+    df$County.name <- ifelse(df$WI.unique.well.. == 'BG252', "Manitowoc", df$County.name)
+
+  # Getting rid of the wells that are not in the database and have incomplete data
+    df <- df[!df$WI.unique.well.. == 'IW849',]
+    df <- df[!df$WI.unique.well.. == 'BG790',]
+    df <- df[!df$WI.unique.well.. == 'FF351',]
+    
+```
+
+
+# Dealing with unexplained results
+```{r}
+  # Get rid of storet codes for 615, 613 and any unexplained results.
+    df <- df[!df$Storet.parameter.code == "615", ]
+    df <- df[!df$Storet.parameter.code == "613", ]
+    df <- df[!df$Result.qualifier.description == "UNEXPLAINED RESULT", ]
+
+  # If Non-detect, replace values with half of the most common detection level (1/2*0.1=0.05 mg/L)
+    # df$Result.amount <- ifelse(df$Result.qualifier.description == "NON-DETECT", 0.5 * df$LOD, df$Result.amount)
+    
+  # Eliminate any duplicates rows. This is will ONLY get rid of rows that are entirely the same.
+    df <- unique(df) 
+    
+  # df$Result.amount <- ifelse(df$Result.amount == NA, 0.5, df$Result.amount)
+  # Role with this for now    
+    df$Result.amount <- if_else(df$Result.qualifier.description == "NON-DETECT", 0.5, df$Result.amount)
+
+   
+```
+
+
+# Formatting the date into DateTime and aggregate/arange over dates
+# At the End of this section, 'dfclean0' will be saved
+# dfclean0 wont be used in the app, but can be used to save time later
+```{r, echo=FALSE}
+#Format Date from Factor to DateTime in new column called DATE
+    df$DATE <- parse_date_time(df$Sample.date, 'mdy')
+
+# Group by WUWN and arrange by DATE
+    df1 <- df %>% 
+           group_by(WI.unique.well..) %>% 
+           arrange(DATE)
+
+# Count number of records for each WUWN and store in new data frame
+    df2 <- df1 %>% 
+           group_by(WI.unique.well..) %>% 
+           summarise(recent = max(DATE), first_sample = min(DATE), n = n())
+
+# Join data frames (df and df2). This provides all rows with the 'n' value
+    df <- full_join(df, df2, by = "WI.unique.well..")
+    
+    #Getting rid of wells with 5 or less samples to work with. 
+# Wells with 5 or less samples will not provide us with relaible information 
+    df <- df[!df$n < minwells,]
+
+# subset data to inlude only those wells that are currently being sampled, can input desired date in code below.
+    df <- df[!df$recent <= recentdate,]
+    
+# Delete recent column from df
+    df$recent <- as.character(df$recent)
+    df$recent <- NULL
+    
+# More formatting for date and season. This will useful when make graphs and trendlines.
+    df$SEASON <- quarter(df$DATE)
+    df$MONTH <- month(df$DATE)
+    df$YEAR <- year(df$DATE)
+    df$SEASON <- as.character(df$SEASON)
+    df$SEASON <- revalue(df$SEASON, c("1"="Jan-Feb-Mar", "2"="Apr-May-Jun", "3"="Jul-Aug-Sep", "4"="Oct-Nov-Dec"))
+
+# The following code filters the samples to ensure they are in a proper time-frame based on when information became consistent(1995).
+# For every year that this gets updated you must increase the end year(the larger) by one. 
+# The end year should be the calander year that was most previously completed. 
+# Selecting the current year, and not the previous, will give us incomplete data due to the high chance that not all data has been entered yet.
+    df <- df[!df$YEAR < startyear,]
+    df <- df[!df$YEAR > recentyear,]
+    df$n <- NULL
+    df1 <- df %>% 
+                  group_by(WI.unique.well..) %>% 
+                  arrange(DATE)
+    
+# count number of records for each WUWN and store in new data frame
+    df2 <- df1 %>% 
+      group_by(WI.unique.well..) %>% 
+      summarise(recent = max(DATE), first_sample = min(DATE), n = n())
+    df <- full_join(df, df2, by = "WI.unique.well..")
+    
+# Getting rid of duplicate samples taken at the same time for a different examinations. Those usually being tests for Nitrate and Nitrite.
+    df <- df %>% distinct(Sample.date , Result.amount , WI.unique.well.. , .keep_all = TRUE)
+
+# Remove all rows that that entirly consist of NA
+    df <- df[rowSums(is.na(df)) != ncol(df), ]
+    df$first_sample.x <- NULL
+    colnames(df)[colnames(df) == 'first_sample.y'] <- 'first_sample'
+
+    
+                                        ###IMPORTANT!###
+# This line of code takes the maximum value of each year for every well and dumps the rest. 
+# This is to keep all treated samples out of our data when we make our models.
+# Takes around 10 minutes to run.
+    dfclean0 <- setDT(df)[, .SD[which.max(Result.amount)], .(WI.unique.well.. , YEAR)]
+    
+# Organizing the "County.name" and "YEAR" columns in alphabetical and numerical order so that the shiny app lists them properly
+    dfclean0 <- dfclean0[order(dfclean0$YEAR),]
+    dfclean0 <- dfclean0[order(dfclean0$County.name),]
+
+    
+# Finding k. 
+# n tells how many total samples have been taken in and out of our parameters. 
+# Essentially, n is every sample ever taken for that specific WUWN. We dont need that anymore. 
+# k will tell us how many samples there are only within our set parameters. Read all previous code to learn parameters. 
+    dfclean2 <- dfclean0 %>% group_by(WI.unique.well..) %>% 
+                summarise(start.of.trend = max(DATE), beginning.trend.sample = min(DATE), k = n())
+    
+# Joining dfclean2 to dfclean0 so that dfclean0 shows the k value    
+    dfclean0 <- full_join(dfclean0, dfclean2, by = "WI.unique.well..")
+  
+# If k is less than minwells, which was declared at the beginning of the code, then we throw out that well. Not enough statistical evidence otherwise. Same as earlier.
+    dfclean0 <- subset(dfclean0 , dfclean0$k >= minwells)
+    saveRDS(dfclean0 , "dfclean0.rds")
+    
+```
+
+
+# Run this if you need to update the dataframes we use in the apps without needing to 
+```{r}
+# dfclean0 <- readRDS("dfclean0.rds")
+```
+
+
+```{r, echo=FALSE}
+# Removing variables that are not used moving forward with
+# "dfclean0" has every variable, while "dfclean" has only what we need for shiny 
+    dfclean02 <- dfclean0 %>% select(-County.code , -Well.name , -Bedrock.depth , -Land.surface.elevation , -Water.formation , -Well.status , -Municipality , -Sample.ID)
+    dfclean03 <- dfclean02 %>% select(-Storet.parameter.code , -Storet.parameter.description , -Result.qualifier.description , -Result.units , -LOD , -LOQ)
+    dfclean <- dfclean03 %>% select(-Enforcement.Standard , -Preventative.Action.Limit ,  -MONTH)
+    
+    
+# summarise k by WUWN in dfclean
+    state_summary <- dfclean %>% group_by(WI.unique.well..) %>% summarise(k=n(),cnt=1)
+  
+    
+# take out the observations with k=1 from state_summary. You cannot make a regression with only 1 value.
+    state_summary <- subset(state_summary , state_summary$k >= 2)
+
+    
+# Count number of wells for selected county
+    a <- state_summary %>% summarise(total=sum(cnt))
+
+    
+# Equation that shows a regression for every unique well 
+    lm_eqn2 = function(dfclean){
+      m = lm(Result.amount ~ YEAR, dfclean);
+      eq2 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2*","~~italic(p-value)~"="~pvalue,
+                        list(a = format(coef(m)[1], digits = 2), 
+                            b = format(coef(m)[2], digits = 2), 
+                            r2 = format(summary(m)$r.squared, digits = 3),
+                            fstat = format(summary(m)$fstatistic[1], digits = 3),
+                            pval <- pf(summary(m)$fstatistic[1], summary(m)$fstatistic[2], summary(m)$fstatistic[3], 
+                                        lower.tail = FALSE),
+                            pvalue = format(pval, digits = 2)))
+      as.character(as.expression(eq2)); 
+    }
+    eq2 <- ddply(dfclean,.(WI.unique.well..),lm_eqn2)
+  
+
+
+#####################################
+###Spacial data### 
+    wells.xy <- read.csv("Comm_Wells_with_XY.csv")
+    
+    xy <- data.frame(ID = wells.xy$WUWN, x = wells.xy$X, y = wells.xy$Y)
+    coordinates(xy) <- c("x", "y")
+    proj4string(xy) <- CRS("+proj=tmerc +lat_0=0 +lon_0=-90 +k=0.9996 +x_0=520000 +y_0=-4480000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs")
+    
+    
+#Transform from projected to geographic coordinate system - latitude and longitude are now in decimal degrees
+    xy.dd <- spTransform(xy, CRS("+proj=longlat +datum=WGS84"))
+    
+    
+#Create a table from the SpatialPointsDataFrame
+#dfclean at this point has a the proper latitude and longitude points for mapping 
+    WI.well <- data.frame(WUWN = xy$ID, x_lon = xy.dd@coords[,1], y_lat = xy.dd@coords[,2])
+    WI.well <- setnames(WI.well , old=c("WUWN" , "y_lat" , "x_lon") , new=c("WI.unique.well.." , "Latitude" , "Longitude"))
+    dfclean <- left_join(dfclean , WI.well , by = "WI.unique.well.." , copy = FALSE)
+#####################################
+  
+#count number of records for each WUWN and store in new data frame
+    dfclean_sum <- dfclean %>% group_by(WI.unique.well..) %>% summarise(clean_mean_no3=mean(Result.amount))
+    
+    
+##Summary of stats by WUWN
+    dfclean$first_sample <- as.character(dfclean$first_sample)
+    
+    
+#I took out first sample and last sample. If any problems come up later because of that make a change here. 
+    dfwisco <- dfclean %>% group_by(WI.unique.well..) %>% summarise(Latitude = mean(Latitude), Longitude = mean(Longitude) ,
+                                                                    County.name = unique(County.name), 
+                                                                    max = max(Result.amount), min = min(Result.amount), 
+                                                                    mean = mean(Result.amount), sd = sd(Result.amount), 
+                                                                    n = n() , T0 = 2000 , T10 = 2010)
+    dfwisco <- full_join(dfwisco, eq2, by = "WI.unique.well..")
+    dfwisco <- full_join(dfwisco, dfclean_sum, by = "WI.unique.well..")    
+
+    
+#this code necessary to change V1 from factor to character string
+    dfwisco$V1 <- as.character(dfwisco$V1)
+    
+  
+#Code for isolating the numbers from the character string to easily access the valuable information
+#Picks out Intercept, Date_Slope, R_Squared, and P_Value.
+  #INTERCEPT
+    dfwisco$INTERCEPT <- gsub("\").+$", "", dfwisco$V1)
+    dfwisco$INTERCEPT <- str_extract(dfwisco$INTERCEPT , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #DATE_SLOPE
+    dfwisco$DATE_SLOPE <- gsub("%.% .+$" ,"" , dfwisco$V1)
+    dfwisco$DATE_SLOPE <- gsub("^.+YEAR = " ,"" , dfwisco$DATE_SLOPE)
+    dfwisco$DATE_SLOPE <- str_extract(dfwisco$DATE_SLOPE , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #R_SQUARED
+    dfwisco$R_SQUARED <- gsub("^.+%.%", "" , dfwisco$V1)
+    dfwisco$R_SQUARED <- gsub("^.+r","" , dfwisco$R_SQUARED)
+    dfwisco$R_SQUARED <- gsub("2 ~","" , dfwisco$R_SQUARED)
+    dfwisco$R_SQUARED <- gsub("p - value.+$","" , dfwisco$R_SQUARED)
+    dfwisco$R_SQUARED <- str_extract(dfwisco$R_SQUARED , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #P_VALUE
+    dfwisco$P_VALUE <- gsub("^.+- value" ,"" , dfwisco$V1)
+    dfwisco$P_VALUE <- str_extract(dfwisco$P_VALUE , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    dfwisco$P_VALUE <- as.numeric(dfwisco$P_VALUE)
+    
+    
+#dfcounty stuff where we get rid of wells that have less than 20 samples so the data is more consistent.
+#This is so we can get legitimate rates of nitrate change over time  in Wisconsin counties
+#As time goes on, you can decide if you want to raise the number of samples from 20 to something higher
+    dfcleancounty <- dfclean[!(dfclean$k < wellyears),]
+    
+    
+#Create a column that we are able to use when we plot the color of well based on nitrate level
+    dfclean$well.color <- ifelse(dfclean$Result.amount <= 1.9999 , "0.0-1.9999",
+                                 ifelse(2.0000 <= dfclean$Result.amount & dfclean$Result.amount <= 4.9999 , dfclean$well.color <- "2.0-4.9999",
+                                        ifelse(5.0000 <= dfclean$Result.amount & dfclean$Result.amount <= 9.9999 , dfclean$well.color <- "5.0-9.9999",
+                                               ifelse(10.000 <= dfclean$Result.amount & dfclean$Result.amount <= 19.9999 , dfclean$well.color <- "10.0-19.9999",
+                                                      ">20.0"))))
+    
+    
+#This line gives the regression from dfwisco to dfclean
+    dfclean <- left_join(dfclean , dfwisco , by = "WI.unique.well.." , copy = FALSE)
+    colnames(dfclean) <- gsub('.x','',names(dfclean))
+    
+    dfclean = select(dfclean, -Latitude.y, -Longitude.y, -County.name.y, -n.y)
+    
+    
+#Turn WI.unique.well.. column to factor to help make new, helpful data frames    
+    dfclean$WI.unique.well.. <- as.factor(dfclean$WI.unique.well..)
+    
+    
+#Changing the intercept and date_slope columns to numeric for the following equations
+    dfwisco$INTERCEPT <- as.numeric(dfwisco$INTERCEPT)
+    dfwisco$DATE_SLOPE <- as.numeric(dfwisco$DATE_SLOPE)
+    
+    dfwisco$DATE_SLOPE2 <- format(dfwisco$DATE_SLOPE , scientific = FALSE)
+    dfwisco$DATE_SLOPE2 <- as.numeric(dfwisco$DATE_SLOPE2)
+    
+    
+#The next few lines calculates the change of NO3 in mg/L over a ten year period and its significant statistical evidence
+    dfwisco$year_T0 <- as.numeric(dfwisco$INTERCEPT) +  as.numeric(dfwisco$T0) * as.numeric(dfwisco$DATE_SLOPE2)
+    dfwisco$year_T10 <- as.numeric(dfwisco$INTERCEPT) + as.numeric(dfwisco$T10) * as.numeric(dfwisco$DATE_SLOPE2)
+    
+    dfwisco$change <- dfwisco$year_T10 - dfwisco$year_T0
+    dfwisco$change <- format(dfwisco$change , scientific = FALSE)
+    dfwisco$change <- as.numeric(dfwisco$change)
+    
+    dfwisco$significance <- ifelse(dfwisco$P_VALUE <= 0.05, "1" , "0")
+    
+    dfwisco$dir_change <- ifelse(dfwisco$change > 0 , "positive" , "negative")
+    
+    
+#Trends and significance
+    dfwisco$sig_change <- ifelse(dfwisco$change < 1.0 & dfwisco$change > -1.0 , "no sig change" , 
+                            ifelse(dfwisco$significance == 0 , "no sig change" , 
+                              ifelse(dfwisco$significance == 1 & dfwisco$change >= 2.5 , "big pos" , 
+                                ifelse(dfwisco$significance == 1 & dfwisco$change <= -2.5 , "big neg" ,
+                                  ifelse(dfwisco$significance == 1 & dfwisco$change >= 1.0 & dfwisco$change < 2.5 , "small pos" , 
+                                    ifelse(dfwisco$significance == 1 & dfwisco$change <= -1.0 & dfwisco$change > -2.5 , "small neg" , "Improperly Calculated"))))))
+    
+    dfwisco$change <- format(dfwisco$change , scientific = FALSE)
+    
+    dfwisco$change <- as.numeric(dfwisco$change)
+    
+    dfwisco$Nitrate.trend <- ifelse(dfwisco$sig_change == "big neg" , "0.25+ Decrease Per Year" ,
+                          ifelse(dfwisco$sig_change == "big pos" , "0.25+ Increase Per Year" ,
+                            ifelse(dfwisco$sig_change == "small neg" , "0.10-0.25 Decrease Per Year" ,
+                              ifelse(dfwisco$sig_change == "small pos" , "0.10-0.25 Increase Per Year" , "No Significant Change"))))
+    
+    dfwisco$Nitrate.trend <- ifelse(dfwisco$sig_change == "big neg" , "-2" ,
+                                    ifelse(dfwisco$sig_change == "big pos" , "2" ,
+                                           ifelse(dfwisco$sig_change == "small neg" , "-1" ,
+                                                  ifelse(dfwisco$sig_change == "small pos" , "1" , "0"))))
+    
+    dfwisco$shiny_trend <- ifelse(dfwisco$Nitrate.trend =="-2" , "Significant Decrease" ,
+                                  ifelse(dfwisco$Nitrate.trend =="-1" , "Slight Decrease" ,
+                                         ifelse(dfwisco$Nitrate.trend =="0" , "No Significant Change" ,
+                                                ifelse(dfwisco$Nitrate.trend =="1" , "Slight Increase" , "Significant Increase"))))
+
+    dfwisco$Nitrate.trend <- as.numeric(dfwisco$Nitrate.trend)
+    
+    
+#dfwisco2 is the same as dfwisco except it only has the wells that have 20 or more samples during the 1995 to 2017 period
+    dfwisco2 <- dfcleancounty %>% group_by(WI.unique.well..) %>% select(County.name)
+    dfwisco2 <- as.data.frame(dfwisco2)
+    dfwisco2 <- subset(dfwisco2 , !duplicated(WI.unique.well..))
+    dfwisco2 <- right_join(dfwisco , dfwisco2 , by = "WI.unique.well..")
+    colnames(dfwisco2) <- gsub('.x','',names(dfwisco2))
+    dfwisco2 <- dfwisco2[, -grep("\\.y$", colnames(dfwisco2))]
+   
+     
+#Count total number of ups and downs and such 
+    dfcountycounting1 <- dfwisco2 %>% group_by(County.name) %>% summarise(positive= sum(sig_change == "positive"))
+    dfcountycounting2 <- dfwisco2 %>% group_by(County.name) %>% summarise(negative= sum(sig_change == "negative"))
+    dfcountycounting3 <- dfwisco2 %>% group_by(County.name) %>% summarise(no_sig_change= sum(sig_change == "no sig change"))
+
+    
+#The following code provides a data frame that shows how many wells are increasing, decreasing, or have no significant change
+    dfcountycounting <- full_join(dfcountycounting1 , dfcountycounting2, by = "County.name")
+    dfcountycounting <- full_join(dfcountycounting , dfcountycounting3, by = "County.name")
+    
+    
+#Group by county and year
+    dfcounty_sum <- dfcleancounty %>% group_by(County.name) %>% summarise(clean_mean_no3=mean(Result.amount))
+  
+      
+##Summary of stats by WUWN
+    dfcounty <- dfcleancounty %>% group_by(County.name , YEAR) %>%
+                                  summarise(max = max(Result.amount), min = min(Result.amount),
+                                  mean = mean(Result.amount), median = median(Result.amount), 
+                                  sd = sd(Result.amount), n() , T0 = as.POSIXct("2000-01-01") , 
+                                  T10 = as.POSIXct("2010-01-01"))
+   
+    
+#create equation for the nitrate regression
+    lm_eqn3 = function(dfcounty){
+      m = lm(mean ~ YEAR, dfcounty);
+      eq3 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2*","~~italic(p-value)~"="~pvalue,
+                        list(a = format(coef(m)[1], digits = 2), 
+                             b = format(coef(m)[2], digits = 2), 
+                             r2 = format(summary(m)$r.squared, digits = 3),
+                             fstat = format(summary(m)$fstatistic[1], digits = 3),
+                             pval <- pf(summary(m)$fstatistic[1], summary(m)$fstatistic[2], summary(m)$fstatistic[3], 
+                                        lower.tail = FALSE),
+                             pvalue = format(pval, digits = 2)))
+      as.character(as.expression(eq3)); 
+    }
+    eq3 <- ddply(dfcounty,.(County.name),lm_eqn3)
+    
+    dfcounty <- full_join(dfcounty, eq3, by = "County.name")
+    dfcounty <- full_join(dfcounty, dfcounty_sum, by = "County.name")
+    
+    
+#this code necessary to change V1 from factor to character string
+    dfcounty$V1 <- as.character(dfcounty$V1)
+    
+    
+#Just like earlier, this code for isolating the numbers from the character string to easily access the valuable information
+#Picks out Intercept, Date_Slope, R_Squared, and P_Value.
+  
+  #INTERCEPT
+    dfcounty$INTERCEPT <- gsub("\").+$", "", dfcounty$V1)
+    dfcounty$INTERCEPT <- str_extract(dfcounty$INTERCEPT , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #DATE_SLOPE
+    dfcounty$DATE_SLOPE <- gsub("%.% .+$" ,"" , dfcounty$V1)
+    dfcounty$DATE_SLOPE <- gsub("^.+YEAR = " ,"" , dfcounty$DATE_SLOPE)
+    dfcounty$DATE_SLOPE <- str_extract(dfcounty$DATE_SLOPE , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #R_SQUARED
+    dfcounty$R_SQUARED <- gsub("^.+%.%", "" , dfcounty$V1)
+    dfcounty$R_SQUARED <- gsub("^.+r","" , dfcounty$R_SQUARED)
+    dfcounty$R_SQUARED <- gsub("italic.+$","" , dfcounty$R_SQUARED)
+    dfcounty$R_SQUARED <- gsub("^.+=","" , dfcounty$R_SQUARED)
+    dfcounty$R_SQUARED <- str_extract(dfcounty$R_SQUARED , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    
+  #P_VALUE
+    dfcounty$P_VALUE <- gsub("^.+- value" ,"", dfcounty$V1)
+    dfcounty$P_VALUE <- str_extract(dfcounty$P_VALUE , "[-]*+\\d+\\.*\\d*+[e]*+[-]*+\\d*")
+    dfcounty$P_VALUE <- format(dfcounty$P_VALUE , scientific = FALSE)
+    dfcounty$P_VALUE <- as.numeric(dfcounty$P_VALUE)
+    
+    
+#Basically copy and pasted from earlier
+#This time it involves couties instead of wells
+    dfcounty$INTERCEPT <- as.numeric(dfcounty$INTERCEPT)
+    dfcounty$DATE_SLOPE <- as.numeric(dfcounty$DATE_SLOPE)
+    
+    dfcounty$DATE_SLOPE2 <- format(dfcounty$DATE_SLOPE , scientific = FALSE)
+    dfcounty$DATE_SLOPE2 <- as.numeric(dfcounty$DATE_SLOPE2)
+    
+    dfcounty$year_2005 <- as.numeric(dfcounty$INTERCEPT) +  2005 * as.numeric(dfcounty$DATE_SLOPE2)
+    dfcounty$year_2015 <- as.numeric(dfcounty$INTERCEPT) + 2015 * as.numeric(dfcounty$DATE_SLOPE2)
+    
+    dfcounty$change <- dfcounty$year_2015 - dfcounty$year_2005
+    dfcounty$change <- format(dfcounty$change , scientific = FALSE)
+    dfcounty$change <- as.numeric(dfcounty$change)
+  
+    
+#Trends and significance   
+    dfcounty$significance <- ifelse(dfcounty$P_VALUE <= 0.05, "1" , "0")
+    dfcounty$dir_change <- ifelse(dfcounty$change > 0 , "positive" , "negative")
+    
+    dfcounty$significance <- as.numeric(dfcounty$significance)
+    
+    dfcounty$sig_change <- ifelse(dfcounty$significance == 1 & dfcounty$change >= 0.1 , "positive" , 
+                                 ifelse(dfcounty$significance == 1 & dfcounty$change <= -0.1 , "negative" , "no sig change"))
+    
+    dfcounty$sig_change <- ifelse(dfcounty$change < 0.1 & dfcounty$change > -0.1 , "no sig change" , 
+                                 ifelse(dfcounty$P_VALUE >= .05 , "no sig change" , 
+                                        ifelse(dfcounty$P_VALUE <= .05 & dfcounty$change >= .25 , "big pos" , 
+                                               ifelse(dfcounty$P_VALUE <= .05 & dfcounty$change <= -.25 , "big neg" ,
+                                                      ifelse(dfcounty$P_VALUE <= .05 & dfcounty$change >= .1 & dfcounty$change < .25 , "small pos" , 
+                                                             ifelse(dfcounty$P_VALUE <= .05 & dfcounty$change <= -.1 & dfcounty$change > -.25 , "small neg" , "no sig change"))))))
+    
+    dfcounty$change <- format(dfcounty$change , scientific = FALSE)
+    
+    dfcounty$Nitrate.trend <- ifelse(dfcounty$sig_change == "big neg" , "0.25+ Decrease Per Year" , 
+                                     ifelse(dfcounty$sig_change == "big pos" , "0.25+ Increase Per Year" , 
+                                            ifelse(dfcounty$sig_change == "small neg" , "0.10-0.25 Decrease Per Year" , 
+                                                   ifelse(dfcounty$sig_change == "small pos" , "0.10-0.25 Increase Per Year" , "No Significant Change"))))
+    
+    dfcounty$Nitrate.trend <- ifelse(dfcounty$sig_change == "big neg" , "-2" , 
+                                     ifelse(dfcounty$sig_change == "big pos" , "2" , 
+                                            ifelse(dfcounty$sig_change == "small neg" , "-1" , 
+                                                   ifelse(dfcounty$sig_change == "small pos" , "1" , "0"))))
+    
+    dfcounty$shiny_trend <- ifelse(dfcounty$Nitrate.trend =="-2" , "Likely Decrease" ,
+                                  ifelse(dfcounty$Nitrate.trend =="-1" , "Possible Decrease" ,
+                                         ifelse(dfcounty$Nitrate.trend =="0" , "No Significant Change" ,
+                                                ifelse(dfcounty$Nitrate.trend =="1" , "Possible Increase" , "Likely Increase"))))
+    
+    dfcounty$Nitrate.trend <- as.numeric(dfcounty$Nitrate.trend)
+    
+#Cleaning out and saving the dfcounty DF
+    dfcounty2 <- dfcounty %>% group_by(County.name)
+    dfcounty2 <- subset(dfcounty2 , !duplicated(County.name))
+    dfcounty2 <- subset(dfcounty2 , select = -c(YEAR , max , min , mean , sd , T0 , T10))
+    
+    saveRDS(dfcounty2 , "dfcounty2.rds")
+  
+#Changing the intercept and date_slope columns to numeric for the following equations
+    dfclean$INTERCEPT <- as.numeric(dfclean$INTERCEPT)
+    dfclean$DATE_SLOPE <- as.numeric(dfclean$DATE_SLOPE)
+    dfclean$DATE_SLOPE2 <- format(dfclean$DATE_SLOPE , scientific = FALSE)
+    dfclean$DATE_SLOPE2 <- as.numeric(dfclean$DATE_SLOPE2)
+ 
+#The few lines calculates the change of NO3 in mg/L over a ten year period and its significant statistical evidence
+    dfclean$year_T0 <- as.numeric(dfclean$INTERCEPT) +  as.numeric(dfclean$T0) * as.numeric(dfclean$DATE_SLOPE2)
+    dfclean$year_T10 <- as.numeric(dfclean$INTERCEPT) + as.numeric(dfclean$T10) * as.numeric(dfclean$DATE_SLOPE2)
+    
+    dfclean$change <- dfclean$year_T10 - dfclean$year_T0
+    dfclean$change <- format(dfclean$change , scientific = FALSE)
+    dfclean$change <- as.numeric(dfclean$change)
+    
+    dfclean$significance <- ifelse(dfclean$P_VALUE <= 0.05, "1" , "0")
+    
+    dfclean$dir_change <- ifelse(dfclean$change > 0 , "positive" , "negative")
+    
+    dfclean$sig_change <- ifelse(dfclean$P_VALUE <= .05 & dfclean$change >= 1.0 , "positive" , 
+                                 ifelse(dfclean$P_VALUE <= .05 & dfclean$change <= -1.0 , "negative" , "no sig change"))
+    
+#This df is to help us get the most recent nitrate amount for the map in shiny
+    dfcleanRecent <- dfclean %>% select(WI.unique.well.. , YEAR , Result.amount)
+    dfcleanRecent <- dfcleanRecent %>% group_by(WI.unique.well..) %>% filter(YEAR == max(YEAR))
+    dfcleanRecent$Nitrate.mean <- dfcleanRecent$Result.amount
+    dfcleanRecent$Result.amount <- NULL
+  
+#remove unneeded columns from dfclean
+    dfclean <- dfclean %>% select( -Casing.depth , -Well.depth , -Watershed.code , -SEASON , -well.color , -m , 
+                                  -T0 , -T10 , -year_T0 , -year_T10 , -Static.water.level , -first_sample , 
+                                  -clean_mean_no3 , -DATE_SLOPE2 , -beginning.trend.sample , -DATE)
+  
+#RDS files that will be transfered over to the shiny app file
+    saveRDS(dfclean, "dfclean.rds")
+    saveRDS(dfwisco, "dfwisco.rds")
+    saveRDS(dfwisco2, "dfwisco2.rds")
+    saveRDS(dfcountycounting, "dfcountycounting.rds")
+    saveRDS(dfcleanRecent, "dfcleanRecent.rds")
+
+```
+
+```{r}
+# Try using the following code to see if the shiny app will stop crashing.     
+    wells.unique.bp <- dfclean %>% select(Result.amount , n , k , WI.unique.well.. , County.name , YEAR)
+    wells.unique.bp <- wells.unique.bp[order(wells.unique.bp$WI.unique.well..),]
+
+    wells.unique0 <- dfclean %>% group_by(WI.unique.well..) %>% select(Well.use.description)
+    wells.unique0$Well.use.description[wells.unique0$Well.use.description == "TRANSIENT NON-COMMUNITY"] <- "Transient Non-Community"
+    wells.unique0$Well.use.description[wells.unique0$Well.use.description == "NON-TRANSIENT NON-COMMUNITY"] <- "Non-Transient Non-Community"
+    wells.unique0$Well.use.description[wells.unique0$Well.use.description == "COMMUNITY MUNICIPALITY"] <- "Municipal Community"
+    wells.unique0$Well.use.description[wells.unique0$Well.use.description == "COMMUNITY -- OTM"] <- "Other-Than-Municipal Community"
+    
+    wells.unique0 <- distinct(wells.unique0, WI.unique.well.., .keep_all = TRUE)
+    
+    wells.unique <- dfclean %>% group_by(WI.unique.well..) %>%
+                                summarise(Latitude = mean(Latitude),
+                                          Longitude = mean(Longitude),
+                                          County = unique(County.name),
+                                          Recent = unique(recent),
+                                          n = n())
+
+    wells.unique <- merge(wells.unique , dfcleanRecent , by=c("WI.unique.well.."))
+    wells.unique <- merge(wells.unique , dfwisco , by=c("WI.unique.well.."))
+   
+    colnames(wells.unique) <- gsub('.x','',names(wells.unique))
+    
+    wells.unique <- wells.unique[, -grep("\\.y$", colnames(wells.unique))]
+    
+    well.ids <- unique(wells.unique$WI.unique.well..)
+    
+    wells.unique$dir_change <- NA
+    wells.unique$sig_change <- NA
+    
+    
+# If there is an error with length of input, there may be some aggregation errors earlier. 
+# I used this dataframe to determine which wells might have data entry errors or otherwise
+    # this <- wells.unique %>% group_by(WI.unique.well..) %>% filter(n() > 1)
+    
+    
+#Use dfwisco to put the to put the trend significance
+#Use dfwisco2 to put the in the county trend. dfwisco2 has only trends that cover a 20 year period
+    wells.unique$dir_change <- dfwisco$dir_change
+    wells.unique$sig_change <- dfwisco$sig_change
+    
+    
+#Combine wells.unique0 and wells.unique
+    wells.unique <- left_join(wells.unique, wells.unique0, by = "WI.unique.well..")
+    
+#save the new data.frame with the trend values
+    saveRDS(wells.unique, "wells.unique.rds")
+    saveRDS(wells.unique.bp, "wells.unique.bp.rds")
+ 
+       
+#Take out the wells that don't have a Long-Lat location
+    well.trends2 <- wells.unique
+    well.trends2$Latitude <- as.character(well.trends2$Latitude)
+    well.trends2$Longitude <- as.character(well.trends2$Longitude)
+
+    well.trends2 <- well.trends2[(!(well.trends2$Longitude== '-96.1175956553284') & !(well.trends2$Latitude== '40.3085503169573')),]
+
+    well.trends2$Latitude <- as.numeric(well.trends2$Latitude)
+    well.trends2$Longitude <- as.numeric(well.trends2$Longitude)
+
+#Trends and significance
+    well.trends2$sig_change <- ifelse(well.trends2$change < 1.0 & well.trends2$change > -1.0 , "no sig change" , 
+                                 ifelse(well.trends2$significance == 0 , "no sig change" , 
+                                   ifelse(well.trends2$significance == 1 & well.trends2$change >= 2.5 , "big pos" , 
+                                     ifelse(well.trends2$significance == 1 & well.trends2$change <= -2.5 , "big neg" ,
+                                       ifelse(well.trends2$significance == 1 & well.trends2$change >= 1.0 & well.trends2$change < 2.5 , "small pos" , 
+                                         ifelse(well.trends2$significance == 1 & well.trends2$change <= -1.0 & well.trends2$change > -2.5 , "small neg" , "Improperly Calculated"))))))
+    
+   
+#Keep this if you dont want to find lat and long for non located wells
+    well.trends2 <- well.trends2[!(is.na(well.trends2$WI.unique.well..)),]
+     
+#Add Positive and Negative Trend stuff to make leaflet map work properly
+    well.trends2$Positive.trend <- well.trends2$Nitrate.trend
+    well.trends2$Negative.trend <- well.trends2$Nitrate.trend
+    
+    saveRDS(well.trends2, "well.trends2.rds")
+    
+    
+#This was some info added late.
+#It displays how many well are increasing and decreasing in each county
+    
+    # dfwisco_sig_count_2 <- dfwisco %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == -2)
+    # dfwisco_sig_count_1 <- dfwisco %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == -1)    
+    # dfwisco_sig_count0 <- dfwisco %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 0)
+    # dfwisco_sig_count1 <- dfwisco %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 1)
+    # dfwisco_sig_count2 <- dfwisco %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 2)
+    
+    
+    dfwisco_sig_count_2 <- well.trends2 %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == -2)
+    dfwisco_sig_count_1 <- well.trends2 %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == -1)    
+    dfwisco_sig_count0 <- well.trends2 %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 0)
+    dfwisco_sig_count1 <- well.trends2 %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 1)
+    dfwisco_sig_count2 <- well.trends2 %>% group_by(County.name, .drop = FALSE) %>% tally(Nitrate.trend == 2)
+    
+    
+    
+    # counties <- readRDS("WIcounties.rds")
+    
+    dfwisco_sig_count_2 <- setnames(dfwisco_sig_count_2, old=c("n" , "County.name"), new=c("nn2", "COUNTY_NAM"))
+    dfwisco_sig_count_1 <- setnames(dfwisco_sig_count_1, old=c("n" , "County.name"), new=c("nn1", "COUNTY_NAM"))
+    dfwisco_sig_count0 <- setnames(dfwisco_sig_count0, old=c("n" , "County.name"), new=c("n0", "COUNTY_NAM"))
+    dfwisco_sig_count1 <- setnames(dfwisco_sig_count1, old=c("n" , "County.name"), new=c("np1", "COUNTY_NAM"))
+    dfwisco_sig_count2 <- setnames(dfwisco_sig_count2, old=c("n" , "County.name"), new=c("np2", "COUNTY_NAM"))
+
+    counties@data <- left_join(counties@data, dfwisco_sig_count_2, by = "COUNTY_NAM")
+    counties@data <- left_join(counties@data, dfwisco_sig_count_1, by = "COUNTY_NAM")
+    counties@data <- left_join(counties@data, dfwisco_sig_count0, by = "COUNTY_NAM")
+    counties@data <- left_join(counties@data, dfwisco_sig_count1, by = "COUNTY_NAM")
+    counties@data <- left_join(counties@data, dfwisco_sig_count2, by = "COUNTY_NAM")
+    
+    saveRDS(counties, "WIcounties2.rds")
+    
+    
+#Getting Wisconsin wide Summary Stats for Statewide Summary in application
+    well.trends3 <- well.trends2
+    
+    totalWells <- nrow(well.trends3)
+    
+    
+    
+    WI_stats <- well.trends3 %>% group_by(shiny_trend, .drop = TRUE) %>% 
+                                  summarise(n = n()) %>%
+                                  mutate(Trend = ifelse(shiny_trend == "Significant Decrease", "Significant Decrease (>2.5 mg/L per decade change)", ifelse(
+                                                        shiny_trend == "Slight Decrease", "Slight Decrease (1.0-2.5 mg/L per decade change)", ifelse(
+                                                        shiny_trend == "No Significant Change", "No Significant Trend", ifelse(
+                                                        shiny_trend == "Slight Increase", "Slight Increase (1.0-2.5 mg/L per decade change)", ifelse(
+                                                        shiny_trend == "Significant Increase", "Significant Increase (>2.5 mg/L per decade change)", "Incorrect Code"   
+                                                          ))))),
+                                                      `Number Of Cases` = n,
+                                                      Percent = round(n/totalWells, 3)) %>%
+                                                    select(Trend, `Number Of Cases`, Percent)
+  saveRDS(WI_stats, "WI_stats.rds")
+  
+  
+  
+  
+  
+  summary_stats <- dfclean %>% inner_join(well.trends2[c("WI.unique.well..", "shiny_trend")], by = "WI.unique.well..") %>%
+    group_by(shiny_trend, YEAR) %>%
+    summarise(`Average Concentration (mg/L)` = mean(Result.amount), `Maximum Concentration (mg/L)` = max(Result.amount), 
+              `75th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.75)), `50th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.50)),
+              `25th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.25)), `Minimum Concentration (mg/L)`= min(Result.amount), 
+              `Number of Samples` = n()) %>%
+    rename("Nitrate Trend" = "shiny_trend", "Year" = "YEAR")
+  
+  
+  saveRDS(summary_stats, "summary_stats.rds")
+
+  
+  
+  
+  
+  summary_stats2 <- dfclean %>% group_by(YEAR) %>%
+    summarise(`Average Concentration (mg/L)` = mean(Result.amount), `Maximum Concentration (mg/L)` = max(Result.amount), 
+              `75th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.75)), `50th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.50)),
+              `25th Percentile (mg/L)` = quantile(Result.amount, probs = c(0.25)), `Minimum Concentration (mg/L)`= min(Result.amount), 
+              `Number of Samples` = n()) %>%
+    rename("Year" = "YEAR")
+  
+  
+  saveRDS(summary_stats2, "summary_stats2.rds")
+
+```
