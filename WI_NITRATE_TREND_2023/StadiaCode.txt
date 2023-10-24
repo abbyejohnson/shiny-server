@@ -1,0 +1,35 @@
+"https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png", group = "https://www.stadiamaps.com/",
+
+"Stadia.StamenTonerLite", group = "https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png",
+
+&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a>
+
+"Stadia.StamenTonerLite", group = "https://www.stadiamaps.com/",
+
+"Stadia.StamenTonerLite", group = "https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png",
+
+API Key: 21849f37-b13a-4111-8858-95d6d8902aeb
+
+# to install the development version from Github, run
+# devtools::install_github("rstudio/leaflet")
+
+Esri.WorldTopoMap
+
+, apikey = '21849f37-b13a-4111-8858-95d6d8902aeb'
+
+C:\Users\abjohnso\AppData\Local\R\win-library\4.3\leaflet.providers
+
+#WORKS
+  #create base map with no layers
+  output$map <- renderLeaflet({
+    leaflet() %>% 
+      addTiles(urlTemplate = "https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png",
+               attribution = paste('&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> ' ,
+                                   '&copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> ' ,
+                                   '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> ' ,
+                                   '&copy; <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> contributors'),
+                       # set the maximum zoom level of the map - should meet the requirment of not showing exact location
+                       options = tileOptions(minZoom = 2, maxZoom = 10)) %>% 
+      # set the default zoom level by fitting bounds to the spatial extent of the state
+      fitBounds(lng1 = -91.9, lat1 = 43.45, lng2 = -87.7, lat2 = 46.1) 
+  })
