@@ -1,0 +1,42 @@
+
+.jimu-modal-panel .jimu-panel-title {
+  padding: 10px;
+}
+.jimu-modal-panel .jimu-panel-title > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+.jimu-modal-panel .widget-icon {
+  margin-right: 10px;
+}
+.jimu-modal-panel .widget-icon img {
+  height: 24px;
+}
+.jimu-modal-panel .close-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('images/x.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+.jimu-modal-panel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.65;
+  z-index: 101;
+}
+.jimu-modal-panel-overlay.hidden {
+  display: none;
+}
+.jimu-panel-content {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
