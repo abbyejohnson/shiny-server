@@ -1,0 +1,623 @@
+{
+  "theme": {
+    "name": "JewelryBoxTheme",
+    "styles": [
+      "default",
+      "black",
+      "green",
+      "cyan",
+      "red",
+      "purple",
+      "blue"
+    ],
+    "version": "2.1",
+    "customStyles": {
+      "mainBackgroundColor": "#294867"
+    }
+  },
+  "portalUrl": "https://uwsp.maps.arcgis.com",
+  "appId": "GYo9CPCfRBk53sf9",
+  "authorizedCrossOriginDomains": [],
+  "title": "",
+  "subtitle": "",
+  "keepAppState": false,
+  "logo": "images\\logo.png",
+  "geometryService": "https://utility.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer",
+  "links": [
+    {
+      "label": "Interpret",
+      "url": "https://www.uwsp.edu/cnr-ap/weal/Documents/interpretwatertest.pdf"
+    },
+    {
+      "label": "Wells",
+      "url": "https://www.uwsp.edu/cnr-ap/watershed/Pages/GWWell.aspx"
+    },	{	"label": "Datasets",	"url": "https://doi.org/10.6084/m9.figshare.12482345.v13"    }
+  ],
+  "logoLink": "https://www.uwsp.edu/cnr-ap/watershed/Pages/default.aspx",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "themes/JewelryBoxTheme/widgets/HeaderController/Widget",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "right": 0,
+          "height": 40,
+          "relativeTo": "browser"
+        },
+        "version": "1.0",
+        "id": "themes_JewelryBoxTheme_widgets_HeaderController_Widget_75",
+        "icon": "themes/JewelryBoxTheme/widgets/HeaderController/images/icon.png?wab_dv=2.1",
+        "name": "HeaderController",
+        "label": "Header Controller"
+      },
+      {
+        "uri": "widgets/Scalebar/Widget",
+        "position": {
+          "left": 7,
+          "bottom": 25,
+          "relativeTo": "map"
+        },
+        "version": "2.7",
+        "id": "widgets_Scalebar_Widget_76",
+        "icon": "widgets/Scalebar/images/icon.png?wab_dv=2.1",
+        "name": "Scalebar",
+        "label": "Scalebar",
+        "config": "configs/Scalebar/config_Scalebar.json",
+        "visible": false
+      },
+      {
+        "uri": "widgets/Search/Widget",
+        "position": {
+          "left": 55,
+          "top": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.7",
+        "id": "widgets_Search_Widget_77",
+        "icon": "widgets/Search/images/icon.png?wab_dv=2.1",
+        "name": "Search",
+        "label": "Search",
+        "config": "configs/Search/config_Search.json",
+        "visible": false
+      },
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 7,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.7",
+        "id": "widgets_Coordinate_Widget_78",
+        "icon": "widgets/Coordinate/images/icon.png?wab_dv=2.1",
+        "name": "Coordinate",
+        "label": "Coordinate",
+        "visible": false
+      },
+      {
+        "position": {
+          "left": 50,
+          "top": 5,
+          "width": 205,
+          "height": 340,
+          "relativeTo": "map"
+        },
+        "placeholderIndex": 1,
+        "id": "_79",
+        "version": "1.0",
+        "uri": "widgets/Legend_PW/Widget",
+        "openAtStart": false,
+        "name": "Legend_PW",
+        "label": "Groundwater Quality Legend",
+        "config": "configs/Legend_PW/config_Groundwater Quality Legend.json",
+        "icon": "widgets/Legend_PW/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "position": {
+          "left": 300,
+          "top": 5,
+          "width": 500,
+          "height": 380,
+          "relativeTo": "map"
+        },
+        "placeholderIndex": 2,
+        "id": "_80",
+        "version": "2.7",
+        "uri": "widgets/BasemapGallery/Widget",
+        "name": "BasemapGallery",
+        "label": "Basemap Gallery",
+        "config": "configs/BasemapGallery/config_Basemap Gallery.json",
+        "icon": "widgets/BasemapGallery/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "position": {
+          "left": 300,
+          "top": 200,
+          "width": 190,
+          "height": 325,
+          "relativeTo": "map"
+        },
+        "placeholderIndex": 3,
+        "id": "_81",
+        "name": "Draw",
+        "label": "Color Ramps",
+        "version": "1.0",
+        "uri": "widgets/Draw/Widget",
+        "config": "configs/Draw/config_Color Ramps.json",
+        "icon": "widgets/Draw/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "position": {
+          "left": 100,
+          "top": 5,
+          "wleft": 30,
+          "wtop": 150,
+          "width": 375,
+          "height": 298,
+          "zIndex": 10,
+          "relativeTo": "map"
+        },
+        "id": "_25",
+        "openAtStart": true,
+        "name": "PopupPanel",
+        "label": "Statistics Report",
+        "version": "1.0",
+        "uri": "widgets/PopupPanel/Widget",
+        "config": "configs/PopupPanel/config_Statistics Report.json",
+        "icon": "widgets/PopupPanel/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "1.0",
+        "id": "widgets_OverviewMap_Widget_82",
+        "icon": "widgets/OverviewMap/images/icon.png?wab_dv=2.1",
+        "name": "OverviewMap",
+        "label": "Overview Map",
+        "config": "configs/OverviewMap/config_Overview Map.json"
+      },
+      {
+        "uri": "widgets/HomeButton/Widget",
+        "position": {
+          "left": 7,
+          "top": 75,
+          "relativeTo": "map"
+        },
+        "version": "1.0",
+        "id": "widgets_HomeButton_Widget_83",
+        "icon": "widgets/HomeButton/images/icon.png?wab_dv=2.1",
+        "name": "HomeButton",
+        "label": "Home"
+      },
+      {
+        "uri": "widgets/MyLocation/Widget",
+        "position": {
+          "left": 7,
+          "top": 110,
+          "relativeTo": "map"
+        },
+        "version": "2.7",
+        "id": "widgets_MyLocation_Widget_84",
+        "icon": "widgets/MyLocation/images/icon.png?wab_dv=2.1",
+        "name": "MyLocation",
+        "label": "My Location",
+        "config": "configs/MyLocation/config_My Location.json",
+        "visible": false
+      },
+      {
+        "uri": "widgets/AttributeTable/Widget",
+        "version": "2.7",
+        "position": {
+          "relativeTo": "browser"
+        },
+        "id": "widgets_AttributeTable_Widget_85",
+        "icon": "widgets/AttributeTable/images/icon.png?wab_dv=2.1",
+        "name": "AttributeTable",
+        "label": "Attribute Table",
+        "featureActions": [
+          {
+            "name": "ShowRelatedRecords",
+            "uri": "actions/ShowRelatedRecordsFeatureAction"
+          },
+          {
+            "name": "ViewInTable",
+            "uri": "actions/ViewInAttributeTableFeatureAction"
+          }
+        ],
+        "visible": false
+      },
+      {
+        "uri": "widgets/Splash/Widget",
+        "position": {
+          "relativeTo": "browser"
+        },
+        "version": "2.1",
+        "id": "widgets_Splash_Widget_86",
+        "icon": "widgets/Splash/images/icon.png?wab_dv=2.1",
+        "name": "Splash",
+        "label": "Splash",
+        "config": "configs/Splash/config_Splash.json"
+      },
+      {
+        "uri": "widgets/ZoomSlider/Widget",
+        "position": {
+          "top": 5,
+          "left": 7,
+          "relativeTo": "map"
+        },
+        "version": "2.7",
+        "id": "widgets_ZoomSlider_Widget_87",
+        "icon": "widgets/ZoomSlider/images/icon.png?wab_dv=2.1",
+        "name": "ZoomSlider",
+        "label": "Zoom Slider"
+      },
+	  {
+	    "position": {
+          "left": 7,
+          "top": 150,
+          "relativeTo": "map"
+        },
+	    "name": "FullScreen",
+		"label": "Full Screen",
+		"version": "2.7",
+		"uri": "widgets/FullScreen/Widget",
+		"id": "widgets_FullScreen_Widget_94"
+	  }
+    ],
+    "groups": [
+      {
+        "visible": false,
+        "panel": {
+          "uri": "themes/JewelryBoxTheme/panels/LDockablePanel/Panel",
+          "position": {
+            "left": 0,
+            "top": 40,
+            "bottom": 0,
+            "width": 150,
+            "relativeTo": "browser"
+          }
+        },
+        "maxWidgets": 1,
+        "id": "_74",
+        "widgets": [
+          {
+            "name": "LayerList",
+            "label": "Layer List",
+            "version": "1.0",
+            "uri": "widgets/LayerList/Widget",
+            "id": "widgets_LayerList_Widget_88",
+            "icon": "widgets/LayerList/images/icon.png?wab_dv=2.1",
+            "config": "configs/LayerList/config_Layer List.json"
+          }
+        ],
+        "label": "Group_0",
+        "icon": "widgets/LayerList/images/icon.png?wab_dv=2.1"
+      }
+    ],
+    "panel": {
+      "uri": "jimu/OnScreenWidgetPanel",
+      "position": {
+        "relativeTo": "map"
+      }
+    }
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 40,
+      "right": 0,
+      "bottom": 0
+    },
+    "itemId": "9809e559c63d46cda196c9ee88b456e5",
+    "mapOptions": {
+      "lods": [
+        {
+          "level": 0,
+          "scale": 9244648.868618,
+          "resolution": 2445.98490512499
+        },
+        {
+          "level": 1,
+          "scale": 4622324.434309,
+          "resolution": 1222.992452562495
+        },
+        {
+          "level": 2,
+          "scale": 2311162.217155,
+          "resolution": 611.4962262813797
+        },
+        {
+          "level": 3,
+          "scale": 1155581.108577,
+          "resolution": 305.74811314055756
+        },
+        {
+          "level": 4,
+          "scale": 577790.554289,
+          "resolution": 152.87405657041106
+        },
+        {
+          "level": 5,
+          "scale": 288895.277144,
+          "resolution": 76.43702828507324
+        },
+        {
+          "level": 6,
+          "scale": 144447.638572,
+          "resolution": 38.21851414253662
+        },
+        {
+          "level": 7,
+          "scale": 72223.819286,
+          "resolution": 19.10925707126831
+        }
+      ],
+      "extent": {
+        "xmin": -10340405,
+        "ymin": 5234938,
+        "xmax": -9658537,
+        "ymax": 5955286,
+        "spatialReference": {
+          "wkid": 102100
+        }
+      }
+    },
+    "id": "map",
+    "portalUrl": "https://uwsp.maps.arcgis.com"
+  },
+  "widgetPool": {
+    "panel": {
+      "uri": "themes/JewelryBoxTheme/panels/FoldablePanel/Panel",
+      "position": {
+        "top": 5,
+        "right": 5,
+        "height": 485,
+        "width": 320,
+        "zIndex": 5,
+        "relativeTo": "map"
+      }
+    },
+    "widgets": [
+      {
+        "name": "Bookmark",
+        "label": "Bookmark",
+        "version": "1.0",
+        "uri": "widgets/Bookmark/Widget",
+        "config": "configs/Bookmark/config_Bookmark.json",
+        "index": 2,
+        "id": "widgets_Bookmark_Widget_72",
+        "icon": "widgets/Bookmark/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "name": "Print",
+        "label": "Print",
+        "version": "1.0",
+        "uri": "widgets/Print/Widget",
+        "config": "configs/Print/config_Print.json",
+        "index": 3,
+        "id": "widgets_Print_Widget_73",
+        "icon": "widgets/Print/images/icon.png?wab_dv=2.1"
+      },
+      {
+        "name": "eSearch",
+        "label": "Select-Locate",
+        "version": "1.0",
+        "uri": "widgets/eSearch/Widget",
+        "config": "configs/eSearch/config_Select-Locate.json",
+        "index": 5,
+        "id": "widgets_eSearch_Widget_93",
+        "icon": "widgets/eSearch/images/icon.png?wab_dv=2.1"
+      }
+    ],
+    "groups": [
+      {
+        "label": "Info-Help",
+        "widgets": [
+          {
+            "name": "About",
+            "label": "About",
+            "version": "1.0",
+            "uri": "widgets/About/Widget",
+            "config": "configs/About/config_About.json",
+            "index": 5,
+            "id": "widgets_About_Widget_89",
+            "icon": "widgets/About/images/icon.png?wab_dv=2.1"
+          }
+        ],
+        "index": 4,
+        "id": "_91",
+        "visible": true,
+        "panel": {
+          "uri": "jimu/OnScreenWidgetPanel",
+          "position": {
+            "top": 5,
+            "left": 50,
+            "zIndex": 3,
+            "relativeTo": "map"
+          }
+        },
+        "icon": "widgets/About/images/icon.png?wab_dv=2.1"
+      }
+    ]
+  },
+  "mobileLayout": {
+    "widgetOnScreen": {
+      "widgets": [
+        {
+          "uri": "themes/JewelryBoxTheme/widgets/HeaderController/Widget",
+          "position": {
+            "left": 0,
+            "top": 0,
+            "right": 0,
+            "height": 40,
+            "relativeTo": "browser"
+          },
+          "version": "2.1"
+        },
+        {
+          "uri": "widgets/Scalebar/Widget",
+          "position": {
+            "left": 7,
+            "bottom": 25,
+            "relativeTo": "map"
+          },
+          "version": "2.7"
+        },
+        {
+          "uri": "widgets/Search/Widget",
+          "position": {
+            "left": 55,
+            "top": 5
+          },
+          "version": "2.7"
+        },
+        {
+          "uri": "widgets/Coordinate/Widget",
+          "position": {
+            "left": 7,
+            "bottom": 5,
+            "relativeTo": "map"
+          },
+          "version": "2.7"
+        },
+        {
+          "position": {
+            "left": 50,
+            "top": 5
+          }
+        },
+        {
+          "position": {
+            "left": 300,
+            "top": 5
+          }
+        },
+        {
+          "position": {
+            "left": 300,
+            "top": 200
+          }
+        },
+        {
+          "position": {
+            "left": 100,
+            "top": 5
+          }
+        },
+        {
+          "uri": "widgets/OverviewMap/Widget",
+          "position": {
+            "right": 0,
+            "bottom": 0
+          },
+          "version": "1.0"
+        },
+        {
+          "uri": "widgets/HomeButton/Widget",
+          "inPanel": false,
+          "position": {
+            "left": 7,
+            "top": 75
+          },
+          "version": "1.0"
+        },
+        {
+          "uri": "widgets/MyLocation/Widget",
+          "inPanel": false,
+          "position": {
+            "left": 7,
+            "top": 110
+          },
+          "version": "2.7"
+        },
+        {
+          "uri": "widgets/AttributeTable/Widget",
+          "version": "2.7",
+          "position": {
+            "relativeTo": "browser"
+          }
+        },
+        {
+          "uri": "widgets/Splash/Widget",
+          "visible": false,
+          "position": {
+            "relativeTo": "browser"
+          },
+          "version": "2.1"
+        },
+        {
+          "uri": "widgets/ZoomSlider/Widget",
+          "visible": true,
+          "position": {
+            "top": 5,
+            "left": 7
+          },
+          "version": "2.7"
+        }
+      ],
+      "groups": [
+        {
+          "visible": false,
+          "panel": {
+            "uri": "themes/JewelryBoxTheme/panels/LDockablePanel/Panel",
+            "position": {
+              "left": 0,
+              "top": 40,
+              "bottom": 0,
+              "width": 150,
+              "relativeTo": "browser"
+            }
+          },
+          "maxWidgets": 1
+        }
+      ]
+    },
+    "map": {
+      "position": {
+        "left": 0,
+        "top": 40,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    "widgetPool": {
+      "panel": {
+        "uri": "themes/JewelryBoxTheme/panels/FoldablePanel/Panel",
+        "position": {
+          "top": 40,
+          "right": 5,
+          "bottom": 5,
+          "zIndex": 5
+        }
+      }
+    }
+  },
+  "loadingPage": {
+    "backgroundColor": "#508dca",
+    "backgroundImage": {
+      "visible": false
+    },
+    "loadingGif": {
+      "visible": true,
+      "uri": "/configs/loading/images/predefined_loading_1.gif",
+      "width": 58,
+      "height": 29
+    }
+  },
+  "wabVersion": "2.7",
+  "isTemplateApp": true,
+  "isWebTier": false,
+  "httpProxy": {
+    "useProxy": true,
+    "alwaysUseProxy": false,
+    "url": "",
+    "rules": []
+  }
+}
