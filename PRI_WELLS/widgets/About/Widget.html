@@ -1,0 +1,134 @@
+<div>
+    <div data-dojo-type="dijit/layout/TabContainer" class="tabContent" tabPosition="left-h" doLayout="false">
+        <div data-dojo-type="dijit/layout/ContentPane" title="Content" data-dojo-props="selected:true">
+            Viewer content is set in the left screen panel.  The panel can be opened or closed to save screen space by clicking on the < > tab.
+			<br><br>
+			The content options include various chemistry parameters displayed as thematic maps based on county, town/range, or section units.  A link referencing data sources can be found on the About tab of this tool.  The chemistry map is layered over a base map; and various boundary layers can also be toggled on to clarify the display, assist with user orientation, and to guide custom searches.
+			<br><br>
+			The thematic mapping unit is selected by clicking on the "Display By" list, and the chemistry to be displayed is selected by clicking on the desired "Parameter".  The thematic map only displays for units with a minimum number of samples to provide some useful characterization (20 samples for a county unit, 5 for a town/range, and 2 for a section).  The thematic map units have scale dependencies that will cause the display unit to shift at times when the map is zoomed, or conversely, the zoom level to change when the thematic map unit is selected.  As discussed on the Nav tab of this Tool, there are eight possible Levels of detail for the map display (levels 0 to 7 with level 0 having the largest extent and level 7 the most zoomed in).  County unit thematic maps display for levels 0 to 3, township/range 0 to 5, and section 4 to 7.
+			<br><br>
+			<IMG SRC="images/basemap_dark_blue.png" ALT="basemapsIcon" title="Basemap Gallery" style="width:20px; height:20px">
+			The available basemaps can be viewed and selected by clicking on the Basemap Gallery icon to open the gallery panel.  Additional basemap information can be found by clicking on the About tab of this Tool.  The Terrain with Labels basemap places some reference layers above the chemistry parameter thematic layers and is a nice alternative to adjusting the transparency of the thematic maps to get a locational perspective.
+			<br><br>
+			<IMG SRC="images/i_layers_30.png" ALT="boundariesIcon" title="Boundary Layers" style="width:30px; height:30px">
+			Boundary layers can be toggled on/off from the dropdown list expanded by clicking on the Boundary Layers icon just below the Basemap icon.  Boundaries matching the thematic map units are available, as well as boundaries for the town/village/city civil divisions, HUC10 watersheds, and major groundwater units.  Text based select and locate for these units can be found on the Select-Locate Tool's By Text tab.  The section boundary layer is scale dependent and will only display when the map is adequately zoomed in (level of detail 5 or higher).
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" title="Legend">
+		    <IMG SRC="images/legend.png" ALT="legendIcon" title="Legend" style="width:20px; height:20px">
+            The spatial distributions of chemistry values are displayed as thematic maps where the chosen mapping unit is colored based on some statistic, such as average.  The possible range in values is divided into 6 bins with a color assigned to each bin from a color ramp, as shown on the legend panel.  The legend panel can be toggled on/off with the legend icon located in the upper left of the map screen, and can be moved anywhere on the screen by clicking in the panel header and dragging the panel while keeping the mouse button depressed.  The transparency of the thematic map over the basemap can be adjusted with the horizontal slider at the top of the legend panel.
+			<br><br>
+			<IMG SRC="images/ramps.png" ALT="paletteIcon" title="Palette" style="width:20px; height:20px">
+            Three color ramps are available by clicking on the color palette icon in the legend panel.  
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" title="Report">
+		    <IMG SRC="images/popup_dr_gr.png" ALT="popupIcon" title="Report" style="width:20px; height:20px">
+            A statistics report can be generated for the currently selected parameter and display unit by clicking on the map.  This report, displayed in a floating popup report panel, includes a distribution or histogram of sample values within the unit, along with minimum, maximum, average, and median.  Number of samples exceeding a standard may also be noted.  The bacteria report simply counts positive/negative samples for Total and E coli bacteria.
+			<br><br>
+            Clicking near a unit boundary may cause several units to be selected.  The <> controls that will appear allow you to cycle through the selections.  Select the clear link to delete and deactivate the report.  Simply closing the report panel will remove it from the screen, but the report will remain active until cleared.  Changing the selected chemistry parameter while a report is active will cause the report to refresh for the new parameter.  Changing the unit will clear the report.  Open a print window by clicking on the Print link.
+			<br><br>
+            The popup report panel will display automatically when a report is generated.  The report panel can also be opened or closed by clicking on the reporting icon, located in the upper left of the map screen near the legend icon.
+			<br><br>
+			<IMG SRC="images/search.png" ALT="searchIcon" title="Search" style="width:20px; height:20px">
+            Reports for thematic map units by named search, as well as for custom areas, can be generated using the Select-Locate Tool.
+        </div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Search">
+		    <IMG SRC="images/search.png" ALT="searchlocateIcon" title="SearchLocate" style="width:20px; height:20px">
+            The Select-Locate Tool, located in the upper right header area or at the bottom right of the Legend panel, allows you to select samples (and zoom to an area) with three basic methods; By Graphic (draw an area on the map), By Text (select by name), and By Point (define a circle center and radius).  The popup report panel will open and function much the same as discussed in the Report tab of this Tool.
+			<br><br>
+            The graphic draw options include a circle, rectangle, or polygon sketch.  Activate the tool by clicking on its icon and then drawing the area on the map.  The circle is drawn by clicking on the map and, while keeping the mouse button depressed, move the mouse to indicate the circle radius.  The rectangle tool has a similar action.  The sketch tool requires you to click on the map for each vertex of the sketch; completed by double clicking the last point.  Draw tools deactivate automatically after each use; an active tool can also be deactivated by clicking its icon again.
+			<br><br>
+            The By Text tab allows you to select samples for a named unit.  Select from the available search layers (correspond to the Boundary Layers discussed in the Content section) by opening the layer list dropdown and clicking on the desired layer.  The required search input for each layer will be defined accordingly.
+            <br>			
+            <IMG SRC="images/IdentifyTool32.png" ALT="identifyIcon" title="Identify" style="width:20px; height:20px">
+			An identify tool is available to explore the map for the selected search layer.  Activate the tool and click on the map to populate the search input until the desired unit is found.
+            <br><br>
+			Click the Search button to generate the groundwater chemistry report.  Because the town civil division is often not unique, a second selection list may appear for this type of search with a list of the selected town by county.  Select the desired town/county and click the Search button again.
+			<br><br>
+			The dropdown selection boxes on this tab allow the user to make a selection in a number of ways.  The dropdown arrow can be clicked to expand the dropdown list with a vertical scroll bar.  Locate the desired option and click on it to select.  Repeatedly clicking a letter will cycle through the options beginning with that letter.  An option can also be directly selected or the list positioned by quickly entering the full option name or as many letters as desired without a pause; otherwise the selection box will interpret the letters as a first character search.
+			<br><br>
+            The By Point tab also allows selection of samples by a circular unit, but provides detailed control of the center and radius.  The radius is specified in miles or kilometers, and minimum/maximum rules apply.  The coordinates of the center point can be specified in a number of ways.  You can enter the coordinates directly as decimal latitude (y or northing) and longitude (x or easting).
+            <br>
+			<IMG SRC="images/IdentifyTool32.png" ALT="identifyptIcon" title="IdentifyPoint" style="width:20px; height:20px">
+			A point identify tool is provided; click on the icon to activate and click on map to get the coordinates of that point.
+            <br>
+			<IMG SRC="images/myloc.png" ALT="mylocIcon" title="MyLocation" style="width:20px; height:20px">
+			A current location tool is also provided; click the icon and agree to allow use of your location.  The final method is the use the address locator; enter an address or some location and select the desired location from the results list.  Click the Search button to generate the report.
+			<br><br>
+            An added feature of the Select-Locate Tool is the ability to add to or remove from the current selection.  For example, a combined report for two adjacent towns or watersheds can be generated, or a county can be selected and a portion of it removed by using the rectangle draw tool.  The default action is to create a new selection each time.  To add or remove, select the action in the drop down menu in the upper right of the panel before making another selection.  The active search area can be as complicated as desired, but very large or complicated shapes may be somewhat slow generating reports.  If the add or remove action is not selected prior to each unit selection, the default new selection is assumed and prior selections lost.
+			<br><br>
+            The popup report will automatically refresh if a new parameter is selected.  Changing the thematic map display unit does not impact a report generated with this tool unless the selection is based only on a thematic map unit on the By Text tab.  Clearing the report will delete the current selection in this tool.  Closing the report panel will remove it from the map display but the report will remain active.  Generating a report by clicking directly on the map (see Report tab this Tool) will delete the selection from the Select-Locate Tool.
+			<br><br>
+            Making a selection with this tool will cause the map to pan and possibly zoom to focus the selected area.  Unless the selection is a county, township/range, or section search, with that unit currently displayed, the zoom action may cause the thematic map unit to switch to honor scale dependencies for those layers.
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" title="Nav">
+            There are several on screen tools to assist with map navigation, as well as the standard panning function.  Click anywhere on the map and hold the mouse button down to drag or pan the map in the desired direction.  (Clicking on the thematic map area without holding the mouse button down and dragging the map will generate a statistics report as described on the report tab of this Tool).
+			<br><br>
+			<IMG SRC="images/state_icon.png" ALT="stateIcon" title="StateExtent" style="width:20px; height:20px">
+            Clicking the home or full extent icon in the upper left map area will refresh the map display at the full extent to display the entire state.  If the section level thematic map is currently displayed, the map will refresh with the township/range unit.
+			<br><br>
+            <IMG SRC="images/zoom.png" ALT="zoomIcon" title="ZoomPlusMinus" style="width:20px; height:20px">
+            The map is zoomed in or out with the +/ - icons in the upper left.  There are eight zoom or levels of detail permitted for the map.  The full extent or state area is level 0 or 1 (depending on the screen resolution) and the most zoomed in is level 7 (the zoom in range is limited so that the section thematic map retains a reasonable spatial context
+			<br><br>
+			<IMG SRC="images/fullScreen.png" ALT="fullscreenIcon" title="FullScreenToggle" style="width:40px; height:20px">
+            Full screen/standard mode can be toggled by clicking the Full Screen icon just below the Wisconsin home extent icon in the upper left map area. This can be used to maximize map layer visibility and the screen area for map navigation.  The Full Screen tool may not be available on some devices and browsers, including most mobile devices.
+			<br><br>
+			<IMG SRC="images/overview.png" ALT="overviewIcon" title="overview" style="width:20px; height:20px">
+            An overview map of the state is available by clicking on the arrow icon at the bottom right.  This map displays a red rectangle for the current main map display area relative to the state.  The main map display area can be panned by clicking on the red indicator and while holding the mouse button down, drag the indicator area to the new location.
+        </div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Print">
+		    <IMG SRC="images/print.png" ALT="printIcon" title="Print" style="width:20px; height:20px">
+            The Print Tool in the upper right header area provides options to capture the current map display in a variety of formats.  Select the format for the print file from the dropdown list.  The print options available depend on the chosen Layout.
+			<br><br>
+            Select the MAP_ONLY layout to save just the map area with no border, layout formatting, or legend.  The resolution of the output image, along with the approximate extent of the map in screen inches can be specified.
+			<br><br>
+            The other layout options generate a titled map with borders and a formated layout on a page.  The map resolution can be specified, the title edited, the legend toggled, and the extent of the map specified in terms of the current extent or scale or a specified scale.
+			<br><br>
+            Clicking on the Print button generates a print file that can be clicked on to preview; use the usual menu options to Print or Save As.  The listed print files will not be saved when the viewer is closed.  Little benefit is gained by setting the output resolution to a value greater than the basic screen resolution because of limited detail in the thematic maps.
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" title="Bookmark">
+		    <IMG SRC="images/bookmark.png" ALT="bookmarkIcon" title="Bookmarks" style="width:20px; height:20px">
+            A Bookmark Tool is available in the upper right header area to save map spatial extents for later use.
+            <br><br>
+			Click on the tool, enter a bookmark name, and click the + icon to save the current extent.
+            <br><br>
+			The program will remember these bookmarks for use in later sessions.
+            <br><br>
+			Click on any existing bookmark to restore that extent.
+        </div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Links">
+            Three web links are provided in the header area that provide other useful information related to the viewer content.  Click on the logo at the upper left to open the Center for Watershed Science and Education’s homepage to access related research and educational materials.  This Center is a partnership between the UW-Stevens Point College of Natural Resources and the UW-Extension, and includes the Groundwater Center (author of this viewer).
+			<br><br>
+            The Wells link opens the Center’s page that provides useful information for private well owners, such as water testing and well maintenance.
+			<br><br>
+            The Interpret link opens the Center’s tool that provides extensive information to help understand groundwater chemistry and test results.  General information for each parameter, as well as health considerations and normal ranges are given.
+        </div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="Mobile">
+            Small mobile devices with less screen space or resolution, including some laptops, may switch the app to an alternate layout.  Rather than separate floatable tool and info windows or panels, there will be one panel in the right or bottom half of the screen depending on the device orientation.  This layout attempts to conserve scarce screen space but will result in a stacking of output panels and possibly hide the desired output.  Close the upper panels as needed, especially if an expected window does not appear.  The map area of the app can be maximized by closing the left content panel after selecting the desired content. 
+			<br><br>
+            Screen space devoted to the app might be increased by reducing the browser interface area if possible.  Some devices and browsers may also have a full screen mode.  Sometimes the app will revert to the standard layout if sufficient screen space is acquired.
+        </div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="About">
+		    Private well data last updated:
+			<div data-dojo-attach-point="aData">xxx</div>
+			<br>
+			Private well viewer version:
+            <div data-dojo-attach-point="aViewer">xxx</div>
+			<br>
+			Groundwater Center
+			<br>
+			Center for Watershed Science and Education
+			<br>
+			Univ of Wisc - Stevens Point
+			<br>
+			Univ of Wisc - Extension
+			<br><br>
+			Development framework:
+			<div data-dojo-attach-point="aFramework">xxx</div>
+			<div data-dojo-attach-point="aJS">xxx</div>
+			<br>
+			Basemaps: ESRI ArcGIS Online
+			<br><br>
+			<a href="https://gissrv3.uwsp.edu/webapps/GWC/PRI_WELLS/About.pdf" target="_blank">Additional Information: Data Sources - Basemaps - References</a> 
+        </div>
+    </div>
+</div>

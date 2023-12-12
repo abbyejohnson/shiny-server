@@ -1,0 +1,14 @@
+{
+  "name": "About",
+  "label": "Help",
+  "platform": "HTML",
+  "version": "1.0",
+  "wabVersion": "2.1",
+  "author": "Dave Mechenich",
+  "description": "This tabbed widget provides interactive help for using the Private Wells Viewer",
+  "copyright": "2017",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasVersionManager": false
+  }
+}
