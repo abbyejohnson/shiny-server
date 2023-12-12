@@ -1,0 +1,170 @@
+<div>
+  <div data-dojo-attach-point="tabSearch">
+    <div class="search-tab-node-hidden" data-dojo-attach-point="tabNode1">
+      <div>
+		<label>${nls.selectFeaturesBy}</label>
+		<div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox"
+            data-dojo-props="types:['polygon'],showClear:false"></div>
+        <div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="aSelectType" iconclass="newSelIcon"
+             class="selectionmenu"><span></span>
+          <div data-dojo-type="dijit/Menu">
+              <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onNewSelection"
+                 iconclass="newSelIcon">${nls.createnewselection}</div>
+              <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onAddSelection"
+                 iconclass="addSelIcon">${nls.addtoselection}</div>
+              <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onRemoveSelection"
+                 iconclass="removeSelIcon">${nls.removefromselection}</div>
+          </div>
+        </div>
+		<div data-dojo-attach-point="progressbar"></div>
+      </div>
+      <br>
+    </div>
+    <div class="search-tab-node-hidden" data-dojo-attach-point="tabNode2">
+      <div>
+        <label>${nls.searchLayer}</label>
+        <div style="clear:both;"></div>
+        <select class="esearch-select" style="margin-bottom:10px;float:left;" data-dojo-attach-point="selectLayerAttribute" data-dojo-type="dijit/form/Select"></select>
+        <div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="bSelectType" iconclass="newSelIcon"
+             class="selectionmenu"><span></span>
+          <div data-dojo-type="dijit/Menu">
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onNewSelection"
+                 iconclass="newSelIcon">${nls.createnewselection}</div>
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onAddSelection"
+                 iconclass="addSelIcon">${nls.addtoselection}</div>
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onRemoveSelection"
+                 iconclass="removeSelIcon">${nls.removefromselection}</div>
+          </div>
+        </div>
+		<div style="clear:both">
+        <hr>
+		</div>
+		<div data-dojo-attach-point="coText">
+		  <br>
+          <label>Search by County Name:</label>
+		  <select class="esearch-select" data-dojo-attach-point="selectCounty" data-dojo-type="dijit/form/Select"></select>
+        </div>
+		<div data-dojo-attach-point="trText">
+		  <br>
+          <label>Search by Township/Range:</label>
+          <br>
+		  <label style="padding-left: 14px">Township:</label>
+		  <input type="number" id="township" class="esearch-input" value=1 data-dojo-attach-event="onchange:_tInput">
+		  <label>N</label>
+		  <br>
+		  <label style="padding-left: 31px">Range:</label>
+		  <input type="number" id="range" class="esearch-input" value=1 data-dojo-attach-event="onchange:_rInput">
+		  <input type="radio" style="margin:5px 2px 5px 2px" id="eDir" name="rDir" value="E" checked="checked" data-dojo-attach-event="onchange:_dirSelected"/><label for="eDir">East</label>
+          <input type="radio" style="margin:5px 2px 5px 2px" id="wDir" name="rDir" value="W" data-dojo-attach-event="onchange:_dirSelected"/><label for="wDir">West</label>
+        </div>		
+		<div data-dojo-attach-point="trsText">
+		  <label>And Section:</label>
+		  <input type="number" id="section" class="esearch-input" value=1 data-dojo-attach-event="onchange:_sInput">
+        </div>
+		<div data-dojo-attach-point="mcdText">
+		  <br>
+          <label>Search by Municipality Name:</label>
+          <br>
+		  <label>Type is:</label>
+		  <input type="radio" style="margin:5px 2px 5px 10px" id="mcdT" name="mcdType" value="T" checked="checked" data-dojo-attach-event="onchange:_mcdSelected"/><label for="mcdT">Town</label>
+          <input type="radio" style="margin:5px 2px 5px 10px" id="mcdV" name="mcdType" value="V" data-dojo-attach-event="onchange:_mcdSelected"/><label for="mcdV">Village</label>
+          <input type="radio" style="margin:5px 2px 5px 10px" id="mcdC" name="mcdType" value="C" data-dojo-attach-event="onchange:_mcdSelected"/><label for="mcdC">City</label>
+		  <br>
+		  <div data-dojo-attach-point="mcdTdisplay">
+		    <select class="esearch-select" style="width:230px" data-dojo-attach-point="selectMCDT" data-dojo-type="dijit/form/Select"></select>
+		  </div>
+		  <div data-dojo-attach-point="mcdVdisplay">
+		    <select class="esearch-select" style="width:230px" data-dojo-attach-point="selectMCDV" data-dojo-type="dijit/form/Select"></select>
+		  </div>
+		  <div data-dojo-attach-point="mcdCdisplay">
+		    <select class="esearch-select" style="width:230px" data-dojo-attach-point="selectMCDC" data-dojo-type="dijit/form/Select"></select>
+		  </div>
+        </div>
+		<div style="color:red" data-dojo-attach-point="mcdUnique">
+		  <br>
+          <label>Pick the desired Town and click Search</label>
+		  <a style="float:right;color=red" href="#" data-dojo-attach-point="btnUniqueCancel">Cancel</a>
+          <br>
+		  <select class="esearch-select" style="width:285px" data-dojo-attach-point="selectMCDUnique" data-dojo-type="dijit/form/Select"></select>
+        </div>
+		<div data-dojo-attach-point="hucText">
+		  <br>
+          <label>Search by HUC10 Watershed:</label>
+		  <select class="esearch-select" style="width:285px" data-dojo-attach-point="selectWatershed" data-dojo-type="dijit/form/Select"></select>
+        </div>
+		<div data-dojo-attach-point="gwuText">
+		  <br>
+          <label>Search by Groundwater Unit:</label>
+		  <select class="esearch-select" style="width:285px" data-dojo-attach-point="selectDistrict" data-dojo-type="dijit/form/Select"></select>
+        </div>
+      </div>
+	  <div>
+	      <div data-dojo-attach-point="drawBoxText" data-dojo-type="jimu/dijit/DrawBox"
+              data-dojo-props="types:['point'],showClear:false"></div>
+		   <span style="position:relative;top:-40px;left:43px">Identify - Click on map to identify feature<br>(click tool to activate, click to deactivate)</span>
+	  </div>
+	  <div class="search-btn" style="background-color:#4475A6;position:relative;top:-30px" data-dojo-attach-point="btnSearch" data-dojo-attach-event="onclick:onSearch">${nls.search}</div>
+	  <div style="position:relative;top:-70px;left:80px;font-size:11px;color:gray;width:210px;padding:5px;border:1px solid gray;border-radius:5px;">
+	      <span>Use the Boundary Layers Tool in the left<br> panel to toggle display of search layers</span>
+	  </div>
+	  <div data-dojo-attach-point="progressbar2"></div>
+    </div>
+    <div class="search-tab-node-hidden" data-dojo-attach-point="tabNode3">
+      <div>
+	    <div data-dojo-attach-point="bufNotice">Apply a search distance (0.5 to 50 miles):</div>
+        <div>
+          <input id="buf" type="text" value="0.5" data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="bufferValuePt"
+                 data-dojo-props="required:true,intermediateChanges:true,constraints:{min:0.5,max:80}" class="esearch-input2"/>
+		  <input type="radio" style="margin:5px 2px 5px 2px" id="bMiles" name="bUnits" value="UNIT_STATUTE_MILE" checked="checked" data-dojo-attach-event="onchange:_bufUnitSelected"/><label for="bMiles">Miles</label>
+          <input type="radio" style="margin:5px 2px 5px 2px" id="bKilo" name="bUnits" value="UNIT_KILOMETER" data-dojo-attach-event="onchange:_bufUnitSelected"/><label for="bKilo">Kilometers</label>
+        </div>
+		<div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="cSelectType" iconclass="newSelIcon"
+             class="selectionmenu"><span></span>
+          <div data-dojo-type="dijit/Menu">
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onNewSelection"
+                 iconclass="newSelIcon">${nls.createnewselection}</div>
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onAddSelection"
+                 iconclass="addSelIcon">${nls.addtoselection}</div>
+            <div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:onRemoveSelection"
+                 iconclass="removeSelIcon">${nls.removefromselection}</div>
+          </div>
+      </div>
+      <div>
+	    <br>
+		<label style="padding-left:75px;">Lat (42.3 to 47.3)</label>
+		<label style="padding-left:7px;">Long (-93 to -86.5)</label>
+		<br>
+        <label>To the point:</label>
+		<input id="lat" type="text" data-dojo-attach-event="change:_latlonInput" data-dojo-type="dijit/form/NumberTextBox" 
+                 data-dojo-props="required:true,intermediateChanges:true,constraints:{min:42.3,max:47.3},rangeMessage:'Enter value from 42.3 to 47.3'" 
+				 class="esearch-input2"/>
+		<input id="lon" type="text" data-dojo-attach-event="change:_latlonInput" data-dojo-type="dijit/form/NumberTextBox" 
+                 data-dojo-props="required:true,intermediateChanges:true,constraints:{min:-93,max:-86.5},rangeMessage:'Enter value from -93 to 86.5'" class="esearch-input2"/>
+		<br>
+		<label style="padding-left:88px;">exp: 44.567</label>
+		<label style="padding-left:47px;">-91.345</label>
+		<br>
+		<br>
+		<label>Edit point latitude/longitude or:</label>
+      </div>
+	  <div data-dojo-attach-point="llDrawPt">
+	      <div data-dojo-attach-point="drawBoxPt" style="margin:0px 0px 0px 6px" data-dojo-type="jimu/dijit/DrawBox"
+              data-dojo-props="types:['point'],showClear:false"></div>
+		  <label style="position:absolute;top:160px;left:47px">Use identify point tool and click on map</label> 
+	  </div>
+	  <div data-dojo-attach-point="llCurLocPt">
+		  <div data-dojo-attach-point="pCurLoc" style="margin:0px 0px 7px 11px"></div>
+          <label style="position:absolute;top:203px;left:47px">Use your current location if available</label>
+	  </div>
+	  <div data-dojo-attach-point="llAddPt">
+	      <div data-dojo-attach-point="searchNode"></div>
+	      <div data-dojo-attach-point="searchResultsNode"></div>
+	  </div>
+	  <br>
+	  <div class="search-btn" style="background-color: #4475A6" data-dojo-attach-point="btnSearchPt" data-dojo-attach-event="onclick:onSearchPt">${nls.search}</div>
+	  <div data-dojo-attach-point="ptNotice" style="font-weight:bold;font-size:16px;color:red;display:none">Notice</div>
+	  <div data-dojo-attach-point="progressbar3"></div>
+    </div>
+  </div>
+  <div data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-attach-point="shelter" data-dojo-props="hidden:true" style="overflow:hidden;"></div>
+</div>
