@@ -1,0 +1,188 @@
+{
+  "showLegend": true,
+  "baseLayerCnt": 6,
+  "chemLayerCnt": 17,
+  "layerChangeLOD": "3,5,4",
+  "watShedColor": "#8B008B",
+  "contextMenu": {
+    "ZoomTo": false,
+    "Transparency": false,
+    "EnableOrDisablePopup": false,
+    "MoveupOrMovedown": false,
+    "OpenAttributeTable": false,
+    "DescriptionOrShowItemDetailsOrDownload": false
+  },
+  "layerOptions": {
+    "PW_WEB_MAP_437": {
+      "display": true
+    },
+    "PW_WEB_MAP_801": {
+      "display": true
+    },
+    "PW_WEB_MAP_5093": {
+      "display": true
+    },
+    "PW_WEB_MAP_7319": {
+      "display": true
+    },
+    "PW_WEB_MAP_6603": {
+      "display": true
+    },
+    "PW_WEB_MAP_5114": {
+      "display": true
+    },
+    "PW_WEB_MAP_1345": {
+      "display": false
+    },
+    "PW_WEB_MAP_6810": {
+      "display": false
+    },
+    "PW_WEB_MAP_9515": {
+      "display": false
+    },
+    "PW_WEB_MAP_9883": {
+      "display": false
+    },
+    "PW_WEB_MAP_948": {
+      "display": false
+    },
+    "PW_WEB_MAP_789": {
+      "display": false
+    },
+    "PW_WEB_MAP_5960": {
+      "display": false
+    },
+    "PW_WEB_MAP_4964": {
+      "display": false
+    },
+    "PW_WEB_MAP_5685": {
+      "display": false
+    },
+    "PW_WEB_MAP_6738": {
+      "display": false
+    },
+    "PW_WEB_MAP_1344": {
+      "display": false
+    },
+    "PW_WEB_MAP_533": {
+      "display": false
+    },
+    "PW_WEB_MAP_9824": {
+      "display": false
+    },
+    "PW_WEB_MAP_172": {
+      "display": false
+    },
+    "PW_WEB_MAP_8345": {
+      "display": false
+    },
+	"PW_WEB_MAPPER2_9868": {
+      "display": false
+    },
+    "PW_WEB_MAP_2262": {
+      "display": false
+    },
+    "PW_WEB_MAP_3638": {
+      "display": false
+    },
+    "PW_WEB_MAP_4673": {
+      "display": false
+    },
+    "PW_WEB_MAP_8671": {
+      "display": false
+    },
+    "PW_WEB_MAP_3523": {
+      "display": false
+    },
+    "PW_WEB_MAP_844": {
+      "display": false
+    },
+    "PW_WEB_MAP_5030": {
+      "display": false
+    },
+    "PW_WEB_MAP_1012": {
+      "display": false
+    },
+    "PW_WEB_MAP_9456": {
+      "display": false
+    },
+    "PW_WEB_MAP_9173": {
+      "display": false
+    },
+    "PW_WEB_MAP_7247": {
+      "display": false
+    },
+    "PW_WEB_MAP_5108": {
+      "display": false
+    },
+    "PW_WEB_MAP_5800": {
+      "display": false
+    },
+    "PW_WEB_MAP_5589": {
+      "display": false
+    },
+    "PW_WEB_MAP_3900": {
+      "display": false
+    },
+    "PW_WEB_MAP_2143": {
+      "display": false
+    },
+	"PW_WEB_MAPPER2_3325": {
+      "display": false
+    },
+    "PW_WEB_MAP_9316": {
+      "display": false
+    },
+    "PW_WEB_MAP_8430": {
+      "display": false
+    },
+    "PW_WEB_MAP_9029": {
+      "display": false
+    },
+    "PW_WEB_MAP_5417": {
+      "display": false
+    },
+    "PW_WEB_MAP_6530": {
+      "display": false
+    },
+    "PW_WEB_MAP_7906": {
+      "display": false
+    },
+    "PW_WEB_MAP_3313": {
+      "display": false
+    },
+    "PW_WEB_MAP_2364": {
+      "display": false
+    },
+    "PW_WEB_MAP_3361": {
+      "display": false
+    },
+    "PW_WEB_MAP_4082": {
+      "display": false
+    },
+    "PW_WEB_MAP_7889": {
+      "display": false
+    },
+    "PW_WEB_MAP_9631": {
+      "display": false
+    },
+    "PW_WEB_MAP_9958": {
+      "display": false
+    },
+    "PW_WEB_MAP_7448": {
+      "display": false
+    },
+    "PW_WEB_MAP_3589": {
+      "display": false
+    },
+    "PW_WEB_MAP_6906": {
+      "display": false
+    },
+	"PW_WEB_MAPPER2_8711": {
+      "display": false
+    },
+    "PW_WEB_MAP_2773": {
+      "display": false
+    }
+  }
+}

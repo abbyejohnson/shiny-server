@@ -1,0 +1,149 @@
+{
+  "closeAtStart": true,
+  "closeOnClear": false,
+  "baseLayerCnt": 6,
+  "chemLayerOff": 2,
+  "chemLayerCnt": 17,
+  "zoomLODs": "3,5,7",
+  "zoomFactor": 1.2,
+  "lineBreakTitle": 43,
+  "baseURL": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/",
+  "paras": [
+    {
+      "title": "ALKALINITY (mg/l CaCO3)",
+      "bins": "50,100,200,300,400,99999",
+      "ranges": "... 50,51 - 100,101 - 200,201 - 300,301 - 400,401 ...",
+      "limits": "0,NA,NA",
+      "dec": 0,
+      "sField": "ALK"
+    },
+    {
+      "title": "ARSENIC (ppb)",
+      "bins": "0,10,50,100,150,99999",
+      "ranges": "None Detected,... 10,11 - 50,51 - 100,101 - 150,151 ...",
+      "limits": "3,> 10ppb,Exceeds Health Standard",
+      "dec": 0,
+      "sField": "ARSENIC"
+    },
+    {
+      "title": "ARSENIC (ppb)",
+      "bins": "0,10,50,100,150,99999",
+      "ranges": "None Detected,... 10,11 - 50,51 - 100,101 - 150,151 ...",
+      "limits": "3,> 10ppb,Exceeds Health Standard",
+      "dec": 0,
+      "sField": "ARSENIC"
+    },
+    {
+      "title": "ATRAZINE FAMILY (ppb)",
+      "bins": "0,0.3,1.0,2.0,3.0,99999",
+      "ranges": "None Detected,... 0.3,0.4 - 1.0,1.1 - 2.0,2.1 - 3.0,3.1 ...",
+      "limits": "2,Detects,NA",
+      "dec": 1,
+      "sField": "PEST"
+    },
+    {
+      "title": "BACTERIA (Positive/Negative)",
+      "bins": "NA",
+      "ranges": "Coliform Positive,Coliform Negative,Total:,E. coli Positive,E. coli Negative,Total:",
+      "limits": "0,NA,NA",
+      "dec": 0,
+      "sField": "BACT"
+    },
+    {
+      "title": "CHLORIDE (mg/l)",
+      "bins": "0,10,50,100,200,99999",
+      "ranges": "None Detected,... 10,11 - 50,51 - 100,101 - 200,201 ...",
+      "limits": "0,NA,NA",
+      "dec": 1,
+      "sField": "CL"
+    },
+    {
+      "title": "CONDUCTIVITY (umhos/cm)",
+      "bins": "100,250,500,750,1000,99999",
+      "ranges": "... 100,101 - 250,251 - 500,501 - 750,751 - 1000,1001 ...",
+      "limits": "0,NA,NA",
+      "dec": 0,
+      "sField": "COND"
+    },
+    {
+      "title": "COPPER (mg/l)",
+      "bins": "0,0.13,0.5,0.9,1.3,99999",
+      "ranges": "None Detected,... 0.130,0.131 - 0.500,0.501 - 0.900,0.901 - 1.300,1.301 ...",
+      "limits": "0,NA,NA",
+      "dec": 3,
+      "sField": "CU"
+    },
+    {
+      "title": "IRON (mg/l)",
+      "bins": "0,0.3,1.0,2.0,5.0,99999",
+      "ranges": "None Detected,... 0.300,0.301 - 1.000,1.001 - 2.000,2.001 - 5.000,5.001 ...",
+      "limits": "0,NA,NA",
+      "dec": 3,
+      "sField": "FE"
+    },
+    {
+      "title": "LEAD (ppb)",
+      "bins": "0,15,25,50,100,99999",
+      "ranges": "None Detected,... 15,16 - 25,26 - 50,51 - 100,101 ...",
+      "limits": "3,> 15ppb,Exceeds Health Standard",
+      "dec": 0,
+      "sField": "PB"
+    },
+    {
+      "title": "MANGANESE (ppb)",
+      "bins": "0,50,300,500,1000,99999",
+      "ranges": "None Detected,... 50,51 - 300,301 - 500,501 - 1000,1001 ...",
+      "limits": "4,> 300ppb,Exceeds Health Advisory",
+      "dec": 0,
+      "sField": "MN"
+    },
+    {
+      "title": "NITRATE (mg/l as N)",
+      "bins": "0,2,5,10,20,99999",
+      "ranges": "None Detected,... 2.0,2.1 - 5.0,5.1 - 10.0,10.1 - 20.0,20.1 ...",
+      "limits": "5,> 10mg/l N,Exceeds Health Standard",
+      "dec": 1,
+      "sField": "NO3"
+    },
+    {
+      "title": "NITRATE (mg/l as N)",
+      "bins": "0,2,5,10,20,99999",
+      "ranges": "None Detected,... 2.0,2.1 - 5.0,5.1 - 10.0,10.1 - 20.0,20.1 ...",
+      "limits": "5,> 10mg/l N,Exceeds Health Standard",
+      "dec": 1,
+      "sField": "NO3"
+    },
+    {
+      "title": "pH",
+      "bins": "5,6,7,8,9,99999",
+      "ranges": "... 6.00,6.01 - 6.50,6.51 - 7.00,7.01 - 7.50,7.51 - 8.00,8.01 ...",
+      "limits": "0,NA,NA",
+      "dec": 2,
+      "sField": "PH"
+    },
+    {
+      "title": "SATURATION INDEX",
+      "bins": "-3,-2,-1,0,1,99999",
+      "ranges": "... -3.0,-2.9 - -2.0,-1.9 - -1.0,-0.9 - 0.0,0.1 - 1.0,1.1 ...",
+      "limits": "0,NA,NA",
+      "dec": 1,
+      "sField": "SI"
+    },
+	{
+      "title": "SULFATE (mg/l)",
+      "bins": "0,25,50,75,100,99999",
+      "ranges": "None Detected,... 25,26 - 50,51 - 75,76 - 100,101 ...",
+      "limits": "0,NA,NA",
+      "dec": 1,
+      "sField": "SO4"
+    },
+    {
+      "title": "TOTAL HARDNESS (mg/l CaCO3)",
+      "bins": "50,100,200,300,400,99999",
+      "ranges": "... 50,51 - 100,101 - 200,201 - 300,301 - 400,401 ...",
+      "limits": "0,NA,NA",
+      "dec": 0,
+      "sField": "THARD"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "baseLayerCnt": 6,
+  "chemLayerCnt": 17,
+  "rampA": "#0B2C7A,#20998F,#00DB00,#FFFF00,#EDA113,#C2523C",
+  "rampB": "#FED976,#FEB24C,#FD8D3C,#FC4E2A,#E31A1C,#B10026",
+  "rampC": "#8C510A,#BF812D,#DFB37D,#80CDC1,#35978F,#01665E",
+  "rampOrder": "std,std,std,std,std,std,std,std,std,std,std,std,std,rev,rev,std,std"
+}
