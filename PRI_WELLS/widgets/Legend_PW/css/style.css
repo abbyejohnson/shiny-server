@@ -1,0 +1,89 @@
+
+.esriLegendServiceLabel {
+  /*display: none;*/
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/*.esriLegendService{
+  padding-bottom: 20px; 
+}*/
+
+.esriLegendLayerLabel{
+  display: none;
+}
+
+.esriLegendLayer{
+  font-size: 12px;
+}
+
+.jimu-widget-legend_pw{
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+.jimu-widget-legend_pw .clickMess{
+  position: absolute;
+  left: 0;
+  padding-top: 225px;
+  font-weight: bold;
+  font-size: 11px;
+  /*font-family: "Avenir Heavy";*/
+}
+
+.jimu-widget-legend_pw .sliderLabels{
+  /*font-weight: bold;*/
+  font-size: 12px;
+  /*font-family: "Avenir Medium";*/
+}
+
+.jimu-widget-legend_pw .colorRampsIcon{
+  opacity: 1;
+  position: absolute;
+  left: 120px;
+  top: 140px;
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+}
+
+.jimu-widget-legend_pw .colorRampsIcon:hover{
+  opacity: 0.8;  
+}
+
+.jimu-widget-legend_pw .colorRampsIcon:active{
+  -ms-transform: scale(1.1,1.1); /* IE 9 */
+  -webkit-transform: scale(1.1,1.1); /* Safari */
+  transform: scale(1.1,1.1); /* Standard syntax */
+}
+
+.jimu-widget-legend_pw .colorRampsIcon{
+  opacity: 1;
+  position: absolute;
+  left: 120px;
+  top: 140px;
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.jimu-widget-legend_pw .eSearchIcon:hover{
+  opacity: 0.8;  
+}
+
+.jimu-widget-legend_pw .eSearchIcon:active{
+  -ms-transform: scale(1.1,1.1); /* IE 9 */
+  -webkit-transform: scale(1.1,1.1); /* Safari */
+  transform: scale(1.1,1.1); /* Standard syntax */
+}
+
+.jimu-widget-legend_pw .eSearchIcon{
+  opacity: 1;
+  position: absolute;
+  left: 163px;
+  top: 253px;
+  width: 15px;
+  height: 15px;
+  z-index: 1;
+  cursor: pointer;
+}
