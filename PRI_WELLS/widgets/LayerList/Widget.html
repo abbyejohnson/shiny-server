@@ -1,0 +1,40 @@
+<div>
+  <div id="basemapsHere">
+    <p class="basemaps">Select<br>Basemap:</p>
+	<IMG SRC="images/basemap_dark_blue.png" ALT="basemaps" class="basemaps-icon" title="Basemap Gallery" style="position: absolute; left: 80px; top: 0px; width: 30px; height: 30px" data-dojo-attach-event="onclick:_baseIconClicked">
+  </div>
+  <div id="boundariesHere">
+    <br>
+    <p class="basemaps">Boundary<br>Layers:</p>
+	<IMG SRC="images/i_layers_30.png" ALT="boundaries" class="basemaps-icon" title="Boundary Layer List" style="position: absolute; left: 80px; top: 40px; width: 30px; height: 30px" data-dojo-attach-event="onclick:_boundaryIconClicked">
+    <div class="layers-section" data-dojo-attach-point="layersSection" style="padding-top:5px;display:none">
+      <!--div class="layer-list-title">${nls.titleLayers}</div-->
+      <div class="layer-list-body" data-dojo-attach-point="layerListBody">
+      </div>
+    </div>
+  </div>
+  <div data-dojo-attach-point="unitPara" data-dojo-attach-event="onclick:_onUPClicked">
+    <p class="upLabels">Display by:</p>
+	<input id="u0" type="button" value="County" class="puButtonSel" /><br>
+	<input id="u1" type="button" value="Township" class="puButton" /><br>
+	<input id="u2" type="button" value="Section" class="puButton" /></br>
+    <p class="upLabels">Parameter:</p>
+	<input id="p0" type="button" value="Alkalinity" class="puButton" /><br>
+	<input id="p1" type="button" value="Arsenic" class="puButton" /><br>
+	<input id="p2" type="button" value="Arsenic-Max" class="puButton" /></br>
+	<input id="p3" type="button" value="Atrazine" class="puButton" /><br>
+	<input id="p4" type="button" value="Bacteria" class="puButton" /><br>
+	<input id="p5" type="button" value="Chloride" class="puButton" /></br>	
+	<input id="p6" type="button" value="Conductivity" class="puButton" /><br>
+	<input id="p7" type="button" value="Copper" class="puButton" /><br>
+	<input id="p8" type="button" value="Iron" class="puButton" /></br>	
+	<input id="p9" type="button" value="Lead" class="puButton" /><br>
+	<input id="p10" type="button" value="Manganese" class="puButton" /><br>
+	<input id="p11" type="button" value="Nitrate" class="puButtonSel" /></br>	
+	<input id="p12" type="button" value="Nitrate-Exceedence" class="puButton" /><br>
+	<input id="p13" type="button" value="pH" class="puButton" /><br>
+	<input id="p14" type="button" value="Saturation Index" class="puButton" /></br>
+	<input id="p15" type="button" value="Sulfate" class="puButton" /></br>
+	<input id="p16" type="button" value="Total Hardness" class="puButton" /></br>		
+  </div>
+</div>
