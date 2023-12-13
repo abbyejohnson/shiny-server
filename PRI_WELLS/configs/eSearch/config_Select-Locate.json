@@ -2,7 +2,7 @@
   "layers": [
     {
       "name": "chembysample",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/7",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/7",
       "zoomLOD": 7,
       "zoomScale": 72223.819286,
       "textSearchLayer": false,
@@ -99,7 +99,7 @@
     },
     {
       "name": "WI Counties",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/0",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/0",
       "zoomLOD": 1,
       "zoomScale": 1155581.108577,
       "maxLOD": 3,
@@ -125,7 +125,7 @@
     },
     {
       "name": "WI Township Range",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/2",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/2",
       "zoomLOD": 3,
       "zoomScale": 288895.277144,
       "maxLOD": 5,
@@ -148,7 +148,7 @@
     },
     {
       "name": "WI Sections",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/3",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/3",
       "zoomLOD": 4,
       "zoomScale": 72223.819286,
       "maxLOD": 7,
@@ -171,7 +171,7 @@
     },
     {
       "name": "WI Municipal",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/1",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/1",
       "zoomLOD": 5,
       "zoomScale": 288895.277144,
       "textSearchLayer": true,
@@ -195,7 +195,7 @@
     },
     {
       "name": "WI HUC10 Watersheds",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/6",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/6",
       "zoomLOD": 3,
       "zoomScale": 1155581.108577,
       "textSearchLayer": true,
@@ -215,7 +215,7 @@
     },
     {
       "name": "WI Groundwater Units",
-      "url": "https://gissrv3.uwsp.edu/ArcGIS/rest/services/GWC/PW_WEB_MAPPER2/MapServer/5",
+      "url": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/5",
       "zoomLOD": 3,
       "zoomScale": 1155581.108577,
       "textSearchLayer": true,
