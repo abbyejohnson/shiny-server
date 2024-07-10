@@ -4,5 +4,5 @@
   "overviewMap": {
     "visible": false
   },
-  "url": "https://uwsp.arcgis.com/home/rest/services/pwWebMapper3b/MapServer"
+  "url": "https://uwsp.maps.arcgis.com/home/rest/services/pwWebMapper3b/MapServer"
 }
