@@ -7,7 +7,7 @@
   "zoomLODs": "3,5,7",
   "zoomFactor": 1.2,
   "lineBreakTitle": 43,
-  "baseURL": "68.183.123.75/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer/",
+  "baseURL": "https://uwsp.maps.arcgis.com/home/rest/services/pwWebMapper3b/MapServer",
   "paras": [
     {
       "title": "ALKALINITY (mg/l CaCO3)",
