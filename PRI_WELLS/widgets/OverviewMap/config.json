@@ -4,5 +4,5 @@
   "overviewMap": {
     "visible": false
   },
-  "url": "https://uwsp.maps.arcgis.com/home/rest/services/PW_WEB_BASE/MapServer"
+  "url": "68.183.123.75/ArcGIS/rest/services/wisconsinwater/PRI_WELLS/PW_WEB_BASE/MapServer"
 }
