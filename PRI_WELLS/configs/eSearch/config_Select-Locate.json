@@ -2,7 +2,7 @@
   "layers": [
     {
       "name": "chembysample",
-      "url": "https://uwsp.maps.arcgis.com/home/rest/services/pwWebMapper3b/MapServer",
+      "url": "68.183.123.75/ArcGIS/rest/services/wisconsinwater/PRI_WELLS/PW_WEB_MAPPER2/MapServer",
       "zoomLOD": 7,
       "zoomScale": 72223.819286,
       "textSearchLayer": false,
