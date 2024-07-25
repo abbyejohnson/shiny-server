@@ -2167,10 +2167,10 @@ server = function(input, output, session) {
     
     labs <- c("Nitrate","Alkalinity","pH","Conductivity","Total Hardness","Chloride","Arsenic","Calcium",
                        "Iron","Manganese","Phosphorus","Sulfate","Potassium","Magnesium","Sodium")
-    table1 <- sumtable(df4, vars = c("Nitrate","Alkalinity","pH","Conductivity","THard","Chloride","Arsenic","Calcium",
+    table1 <- st(df4, vars = c("Nitrate","Alkalinity","pH","Conductivity","THard","Chloride","Arsenic","Calcium",
                                            "Iron","Manganese","P","Sulfate","Potassium","Magnesium","Sodium"), 
                        summ=c('min(x)', 'mean(x)', 'median(x)', 'max(x)','notNA(x)'), 
-                       summ.names = list(c('Minimum','Mean','Median','Maximum','# of Samples')),out = 'csv', labels = labs)
+                       summ.names = list(c('Minimum','Mean','Median','Maximum','# of Samples')),out = 'return', labels = labs)
     # df4_stats <- summary.data.frame(df4_table)
     # table1 <- as.data.frame.matrix(df4_stats)
 
