@@ -1,0 +1,783 @@
+##### JEFFERSON COUNTY ----------------------------------------------------------------------------------------------------------
+
+ui = fluidPage(
+    
+    #headerPanel(div(uwex,uwsp)),
+    titlePanel(strong('Jefferson County Well Water Monitoring Project')),
+    theme = shinytheme("flatly"),
+    "",
+    
+    sidebarLayout(
+      mainPanel(width = 6, 
+                fluidRow(
+                  column(4,
+                         selectInput("type", "Map Type",
+                                     c("Individual Wells" = "Individual Wells",
+                                       "Municipality" = "Municipality"), selected = "Individual Wells")),
+                  column(3,
+                         # sliderInput("year", "Year",
+                         #             min = 2016, max = 2019,
+                         #             value = 2016, step = 1)),
+                         selectInput("year", "Year",
+                                     c("2023" = "2023"), selected = "2023")),
+                  column(5,
+                         selectInput("var", "Variable:",
+                                     c("Nitrate-Nitrogen" = "Nitrate",
+                                       "Alkalinity" = "Alkalinity",
+                                       "Chloride" = "Chloride",
+                                       "Conductivity" = "Conductivity",
+                                       "pH" = "pH",
+                                       "Total Hardness" = "Total.Hardness",
+                                       "Arsenic" = "Arsenic",
+                                       "Calcium" = "Calcium",
+                                       "Iron" = "Iron",
+                                       "Manganese" = "Manganese",
+                                       "Phosphorus" = "P",
+                                       "Sulfate" = "Sulfate",
+                                       "Potassium" = "Potassium",
+                                       "Magnesium" = "Magnesium",
+                                       "Sodium" = "Sodium",
+        ####Removed only 1yr data     "Nitrate Variability" = "Nitrate_sd",
+                                       "Percent Row Crops" = "ROWCROP",
+                                       "Percent Dairy Rotation" = "DAIRY_PERC",
+                                       "Percent Hay/Pasture" = "HAY_PAST",
+                                       "Percent All Agriculture" = "AG_HAY_PAST",
+                                       "Soil Drainage Rank" = "weighted.rank",
+                                       "Quaternary Geology" = "MapUnit",
+                                       "Casing Below Water Table" = "DB_WT"), selected = "Nitrate"))),
+                hr(),
+                fluidRow(
+                  column(12, offset = 0,
+                         leafletOutput("map", height = 550)
+                  )
+                ),
+                br(),
+                div(logo,uwsp,uwex),
+                br(),
+                div(strong("Center for Watershed Science and Education in partnership with Jefferson County")),
+                div("Created by: Kevin Masarik, Abby Johnson, Grant Moser, and Jennifer Dierauer"),
+                div("Last modified:", modified,'.', a(href="mailto:gndwater@uwsp.edu","Contact us for questions")),
+      ),
+      position = NULL,
+      
+      sidebarPanel(width = 6, 
+                   tabsetPanel(
+                     tabPanel("ABOUT the Project",
+                              h4(strong("Overview")),
+                              tags$p("In 2023, Jefferson County conducted a project to gather baseline data on fifteen different well water quality parameters. 
+                              The water quality information collected from 828 private wells is intended to understand spatial variability of common 
+                                     water quality concerns. Future testing efforts can be compared to these results to better understand how and 
+                                     where well water quality may be changing over time."),
+                              tags$p("The information collected through these efforts will be used to analyze 
+                              where and what factors may be contributing to any changes in groundwater quality observed over time.  
+                              The well network is intended to be representative of Jefferson County (i.e. accounting for 
+                              the wide variety of geology, soils, land-use, and well construction found throughout the area)."),
+                              br(),
+                              h4(strong("Using the Map")),
+                              p(strong("Map Type")),
+                              p("Individual Wells: When individual wells are selected, this map view allows you to see the water quality
+                                  test results for each well that was sampled. The well points are approximate locations in order to protect the privacy of participants. 
+                                  Clicking on the points will provide the water quality
+                                  result for whichever test is selected."),
+                              p("Municipality: When the municipality view is selected, the map displays the average concentration for each
+                                  of the water quality tests conducted. Clicking on the municipality will provide summary 
+                                  statistics by town."),
+                              p(strong("Year")),
+                              p("This drop down menu allows you to see results from different years. Additional data will be made available as the project progresses."),
+                              p(strong("Variable")),
+                              p("This drop down menu switches allows you to view the different analytes or various attributes associated with the wells"),
+                              br(),
+                              h4(strong("LEARN about tests")),
+                              p("Samples are analyzed for nitrate-nitrogen, chloride, alkalinity, total hardness, pH, and conductivity. Nitrate and
+                                chloride are useful for understanding the degree to which groundwater has been affected by human activities. 
+                                Click on the 'LEARN about tests' tab To learn more about the specific tests and what they tell us about groundwater."),
+                              br(),
+                              h4(strong("LEARN about other variables")),
+                              p("Other attributes associated with the well construction or land use are can be useful for 
+                                understanding what factors may be influencing well water quality. Other variables include: 
+                                Percent Agriculture, Percent Dairy Rotation, Percent Row Crops, Percent Hay/Pasture, 
+                                Uppermost Bedrock Type, and Casing Depth Below the Water Table. Click on the 'LEARN about other variables' tab To learn more about other variables and what they tell us about groundwater."),
+                              br(),
+                              
+                              h4(strong("EXPLORE project data")),
+                              p("Data can further be explored for trends over time in individual wells, municipal summaries, or county-wide.  
+                                Click on the 'EXPLORE project data' tab to investigate data in more detail."),
+                              br(),
+                              h4(strong("Interpreting the data")),
+                              p("Boxplots are commonly used to display the data collected from this project. Boxplots help to visualize aspects of the data in picture format.
+                                They also allow us to compare datasets between different years or categories of data from the same year. The following diagram contains
+                                information that is helpful for understanding how to interpret boxplots of data for this project."),
+                              tags$div(boxplot_interp)
+                     ),
+                     tabPanel("LEARN about Tests",
+                              tabsetPanel(
+                                tabPanel("Nitrate-Nitrogen",
+                                         h4(strong("What is Nitrate")),
+                                         p("This test measures the amount of nitrate-nitrogen in your well. Nitrate is a form of 
+                                            nitrogen, commonly found in agricultural and lawn fertilizer, 
+                                            that easily dissolves in water. It is also formed when waste materials such as manure or 
+                                            septic effluent decompose. The natural level of nitrate in Wisconsin's groundwater is 
+                                            less than 1 mg/L. Levels greater than this suggest groundwater has been impacted by 
+                                            various land-use practices."),
+                                         br(),
+                                         h4(strong("Why Test for Nitrate")),
+                                         p("Nitrate is an important test for determining the safety of well water for drinking. Nitrate is a test that 
+                                         allows us to understand the influence of human activities on well water quality. Because it moves
+                                          can come from a variety of sources and moves easily through soil, it serves as a useful indicator of certain land-use activities. 
+                                          An annual nitrate test is useful for better understanding whether water quality is getting better, worse, or staying
+                                          the same with respect to certain land-uses (see Sources)."),
+                                         br(),
+                                         h4(strong("Interpreting Nitrate-Nitrogen Concentrations")),
+                                         tags$div(nitrate_interp),
+                                         br(),
+                                         h4(strong("Health Effects of Nitrate in Drinking Water")),
+                                         tags$div(nitrate_health),
+                                         br(),
+                                         h4(strong("Ways to reduce nitrate in your drinking water")),
+                                         tags$div("One way to reduce nitrate is to install a water treatment device approved for removal of nitrate; 
+                                          testing is the only way to make sure these devices are properly functioning"),
+                                         br(),
+                                         tags$em("Point-of-use devices treat enough water for drinking and cooking needs"),
+                                         tags$ul(
+                                           tags$li("Reverse Osmosis"),
+                                           tags$li("Distillation")),
+                                         tags$em("Point-of-entry systems treat all water distributed throughout the house"),
+                                         tags$ul(
+                                           tags$li("Anion Exchange")),
+                                         tags$div("Additionally, you may want to investigate the potential that drilling a new well or well reconstruction 
+                                          may provide water with safe nitrate levels"),
+                                         br(),
+                                         h4(strong("Sources of Nitrate")),
+                                         tags$ul(
+                                           tags$li("Agricultural Fertilizers"),
+                                           tags$li("Manure and other biosolids"),
+                                           tags$li("Septic Systems"),
+                                           tags$li("Lawn Fertilizers")
+                                         ),
+                                         br(),
+                                         h4(strong("Strategies to reduce nitrate in groundwater")),
+                                         tags$ul(
+                                           tags$li("Applying fertilizer at the right rate, time, source, place will maximize 
+                                            profitability and minimize excessive losses of nitrogen to groundwater; additional 
+                                            practices may be needed to improve water quality in areas with susceptible soils and geology"),
+                                           tags$li("You may not need as much nitrogen fertilizer as you think, conduct your own on-farm rate trials
+                                            to develop customized fertilizer response curves for your farm"),
+                                           tags$li("Utilize conservation incentive programs to take marginal land or underperforming 
+                                            parts of fields out of production"),
+                                           tags$li("Diversify cropping systems to include less nitrogen intensive crops in the rotation"),
+                                           tags$li("Explore and experiment with the use of cover crops, perennial cropping systems, or 
+                                            managed grazing to reduce nitrate losses to groundwater")
+                                         )
+                                ),
+                                tabPanel("Chloride",
+                                         h4(strong("What is Chloride")),
+                                         p("In most areas of Wisconsin, chloride concentrations are naturally low 
+                                          (usually less than 15 mg/L). Higher concentrations may serve as an indication that 
+                                          the groundwater supplied to your well has been impacted by various human activities."),
+                                         br(),
+                                         h4(strong("Why Test for Chloride")),
+                                         p("Chloride is a test that allows us to understand the influence of human activities on well water quality.
+                                         Measuring chloride concentrations in your well water will allow us to better understand whether well 
+                                          water quality is getting better, worse, or staying the same with respect to certain land-uses (see Sources)."),
+                                         br(),
+                                         h4(strong("Interpreting Chloride Concentrations")),
+                                         p("Chloride is not toxic at typical concentrations found in groundwater. Unusually high 
+                                          concentrations of chloride (greater than 150 mg/L) are often associated with road salt and may be related to nearby
+                                          parking lots or road culverts where meltwater from winter deicing activities often accumulates.
+                                          Water with concentrations greater than 250 mg/L are likely to contain elevated sodium and are sometimes 
+                                          associated with a salty taste; water is also more likely to be corrosive to certain metals."),
+                                         br(),
+                                         h4(strong("Sources of Chloride")),
+                                         tags$ul(
+                                           tags$li("Agricultural Fertilizers (chloride is a companion ion of potash fertilizers)"),
+                                           tags$li("Manure and other biosolids"),
+                                           tags$li("Septic Systems"),
+                                           tags$li("Road Salt")
+                                         ),
+                                         br(),
+                                         h4(strong("How to help reduce chloride in groundwater")),
+                                         p("Many winter maintenance professionals are taking action to reduce their salt use by improving mechanical removal, calibrating equipment, incorporating liquid brine into their winter maintenance toolbox."), 
+                                         p("Likewise, individual homeowners can do their part by removing snow as soon as possible and using winter salt wisely."),
+                                         br(),
+                                ),
+                                tabPanel("Alkalinity",
+                                         h4(strong("What is Alkalinity")),
+                                         p("Alkalinity is a measure of water's ability to neutralize acids.  Alkalinity is associated with carbonate 
+                                          minerals and is commonly found in areas where groundwater is stored or transported in 
+                                          carbonate aquifers which occur in parts of Jefferson County."),
+                                         br(),
+                                         h4(strong("Why Test for Alkalinity")),
+                                         p("Because alkalinity is related to the rocks and soils that water flows through on its way to a 
+                                          well, we would expect alkalinity concentrations to be fairly stable from year to year. Any changes observed in alkalinity
+                                          concentrations may help us better understand the influence of climate variability
+                                          on well water quality on an individual well, or make sense of broader water quality results from Jefferson County. 
+                                          Particularly in wells that are uninfluenced by human activity,
+                                          Alkalinity concentrations may help us better understand which wells are accessing younger water that may be
+                                          more vulnerable or prone to contamination."),
+                                         br(),
+                                         h4(strong("Interpreting Alkalinity Concentrations")),
+                                         p("There are no health concerns associated with having alkalinity in water. 
+                                          Alkalinity should be roughly 75-100% of the total hardness value in an unsoftened sample. 
+                                          Water with low levels of alkalinity (less than 150 mg/L) is more likely to be corrosive. 
+                                          High alkalinity water (greater than 200 mg/L), may contribute to scale formation.  If total
+                                          hardness is half or less than the alkalinity result, it likely indicates that your water has passed 
+                                          through a water softener. If alkalinity is significantly less than total hardness, it be related to 
+                                          elevated levels of chloride or nitrate in your water sample."),
+                                         br()
+                                ),
+                                tabPanel("Total Hardness",
+                                         h4(strong("What is Total Hardness")),
+                                         p("The hardness test measures the amount of calcium and mangnesium in water. Calcium and 
+                                          magnesium are essential nutrients, which generally come from naturally sources of these elements in rock and soils.
+                                          The amount present in drinking water is generally not a significant source of these nutrients compared with a health diet."),
+                                         br(),
+                                         h4(strong("Why Test for Total Hardness")),
+                                         p("Because total hardness is related to the rocks and soils that water flows through on its way to a 
+                                         well, we would expect total hardness concentrations to be fairly stable from year to year. Any changes observed in total hardness
+                                          concentrations may help us better understand the influence of climate variability
+                                          on well water quality on an individual well. Because hardness concentrations have been shown to increase when nitrate and/or chloride 
+                                          increase, the total hardness test is a good complement to other tests."),
+                                         br(),
+                                         h4(strong("Interpreting Total Hardness Concentrations")),
+                                         p("There are no health concerns associated with having total hardness in your water, however too much or too little hardness can be associated 
+                                          with various aesthetic issues that can impact plumbing and other functions."),
+                                         br(),
+                                         p(strong("Hard Water: ")),
+                                         p("Water with a total hardness value greater than 200 mgL is considered hard water. 
+                                          Hard water can cause lime buildup (scaling) in pipes and water heaters. Elements responsible for water hardness can also react with soap 
+                                          decreasing its cleaning ability, can cause buildup of soap scum, and/or graying of white laundry over time.
+                                          Some people that use hard water for showering may notice problems with dry skin."),
+                                         p(em(strong("If you are experiencing problems with hard water: ")),"Consider softening water using a water softener. 
+                                          Water softeners remove calcium and magnesium and replace those elements with a different cation (usually sodium).
+                                          Many people choose not to soften the cold-water tap used for drinking/cooking and the outdoor faucet used for yard watering."),
+                                         br(),  
+                                         p(strong("Soft Water: ")),
+                                         p("Water with a total hardness concentration less than 150 mg/L is considered soft.  Water with too little hardness
+                                          is often associated with corrosive water, which can be problematic for households with copper plumbing or other metal components of a
+                                          plumbing system. Please note: Total Hardness values less than 50 would be rare for Jefferson County, if your water reported less than 50 mg/L of Total 
+                                          Hardness it likely represents softened or partially softened water."),
+                                         p(em(strong("If you are experiencing problems with soft water or corrosion of household plumbing: ")),"You may want to consider a water treatment device
+                                          (called a neutralizer) designed to make water less corrosive. Newer homes with plastic plumbing generally don't need to be as concerned with corrosive water
+                                          with respect to the plumbing."),
+                                         br(),
+                                         p(strong("Ideal: ")),
+                                         p("Water with total hardness between 150-200 mg/L is generally an ideal range of water hardness because there are enough ions to 
+                                          protect against corrosion, but not too many that they contribute to scale formation. While it is a personal preference, households 
+                                          with hardness in this range generally don't require additional treatment."),
+                                         br(),
+                                         p(em("Note: the water softening industry measures hardness in grains per gallon. 1 grain per gallon = 17.1 mg/L as CaCO3")),
+                                         br(),
+                                         h4(strong("Sources of Total Hardness")),
+                                         p("Primarily dissolved carbonate minerals which occur naturally in soil and certain rock materials. When carbonate minerals dissolve, they
+                                          increase the amount of calcium and magnesium ions in water."),
+                                         br()
+                                ),
+                                tabPanel("pH",
+                                         h4(strong("What is pH")),
+                                         p("The pH test measures the concentration of hydrogen ions in a solution.  The concentration of hydrogen
+                                          determines if a solution is acidic or basic. The lower the pH, the more corrosive water will be."),
+                                         br(),
+                                         h4(strong("Why Test for pH")),
+                                         p("The pH of groundwater in Wisconsin in typically between 6.5 and 8.5. Lower or higher values can occasionally 
+                                          occur in parts of the state because of certain geologic characteristics. While there are not health concerns associated with
+                                          pH levels typical of Wisconsin groundwater, corrosive water (pH less than 7) is more likely to contain elevated levels of
+                                          copper and/or lead if those materials occur in the plumbing system."),
+                                         br(),
+                                         p("Low pH values are most often caused by a lack of carbonate minerals. Low total hardness and alkalinity are often correlated with 
+                                          low or acidic pH values.")
+                                ),
+                                tabPanel("Conductivity",
+                                         h4(strong("What is Conductivity")),
+                                         p("Conductivity measures the amount of dissolved substances (or ions) in water; but does not
+                                          give an indication of which minerals are present.  Changes in conductivity over time may indicate changes 
+                                          in overall water quality."),
+                                         br(),
+                                         h4(strong("Why test for Conductivity")),
+                                         p("There is no health standard associated conductivity. A normal conductivity value measured in umhos/cm is roughly
+                                          twice the total hardness (measured as CaCO3) in unsoftened water samples. If conductivity is significantly greater than twice 
+                                          the hardness, it may indicate the presence of other human-influenced or naturally occurring ions such as chloride, nitrate,
+                                          or sulfate. Because conductivity is relatively easy and cost effective to measure, understanding variations in conductivity 
+                                          may help in designing cost effective monitoring strategies for homeowners 
+                                          to monitor their well water continuously through sensors rather than annual test."),
+                                ),
+                                tabPanel("Arsenic",
+                                         h4(strong("What is Arsenic")),
+                                         p("Arsenic is a naturally occurring element that can be found at levels of concern when groundwater dissolves arsenic
+                                           containing minteral deposits in the soil and bedrock of some aquifers."),
+                                         br(),
+                                         h4(strong("Why test for Arsenic")),
+                                         p("There is a health-based drinking water standard of 0.010 mg/L. Long term exposure to arsenic in drinking water greater than 0.010 mg/L can increase the likelihood of developing certain cancers suck as skin,
+                                           liver, kidney and bladder."),
+                                         br(),
+                                         h4(strong("Ways to reduce arsenic in your drinking water")),
+                                         p("One way to reduce nitrate is to install a water treatment device capable of reducing arsenic levels; 
+                                          testing is the only way to make sure these devices are properly functioning"),
+                                         br(),
+                                         tags$em("The following types of point-of-use devices treat enough water for drinking and cooking needs and are capable of removing arsenic."),
+                                         tags$ul(
+                                           tags$li("Reverse Osmosis"),
+                                           tags$li("Distillation")),
+                                ),
+                                tabPanel("Calcium",
+                                         h4(strong("What is Calcium")),
+                                         p("Calcium is naturally occurring in groundwater from the dissolution of calcium from dolomite and limestone
+                                           rock formations."),
+                                         br(),
+                                         h4(strong("Why test for Calcium")),
+                                         p("There are no health concerns associated with calcium. Calcium is essential for a variety of human health functions,
+                                           although the amount obtained through drinking water is generally small compared to intake through food consumption.
+                                           Along with magnesium, calcium contributes to hard water. Hard water can cause scale buildup and other issues and
+                                           is removed through the water softening process."),
+                                ),
+                                tabPanel("Iron",
+                                         h4(strong("What is Iron")),
+                                         p("Iron is a common element found in minerals, rocks, and soil. It is naturally occurring in groundwater.
+                                           Levels of iron greater than 0.300 mg/L have a greater tendency to cause taste problems and discoloration of water and/or staining (reddish-brown) of fixtures and sometimes clothing washed in it."),
+                                         br(),
+                                         h4(strong("Why test for Iron")),
+                                         p("There are no health concerns associated with iron for levels typically found in drinking water. Knowing the amount of iron in water can be useful when pursuing treatment."),
+                                         br(),
+                                         h4(strong("Ways to reduce iron in your drinking water")),
+                                         p("Small amounts of iron can generally be removed effectively by water softeners. Larger concentrations of iron (greater than 3 mg/L) may require special iron treatment."),
+                                         ),
+                                tabPanel("Magnesium",
+                                         h4(strong("What is Magnesium")),
+                                         p("Magnesium is naturally occurring in groundwater from the dissolution of magnesium from dolomite rock formations."),
+                                         br(),
+                                         h4(strong("Why test for Magnesium")),
+                                         p("There are no health concerns associated with magnesium. Magnesium is essential for a variety of human health functions,
+                                           although the amount obtained through drinking water is generally small compared to intake through food consumption.
+                                           Along with calcium, magnesium contributes to hard water. Hard water can cause scale buildup and other issues and
+                                           is removed through the water softening process."),
+                                ),
+                                tabPanel("Manganese",
+                                         h4(strong("What is Manganese")),
+                                         p("Manganese is a common element found in minerals, rocks and soil as a result it is naturally occurring in groundwater. Aesthetic concerns such as black staining or the formation of black precipitates is likely to occur when levels are greater than 0.050 mg/L"),
+                                         br(),
+                                         h4(strong("Why test for Manganese")),
+                                         p("Manganese is part of a healthy diet, but levels greater than 0.300 mg/L in drinking water can increase the risk of health complications from long term consumption of water at those levels. Some studies suggest manganese can
+                                           have effects on learning and behavior in children. Also suspected to cause harm to the nervous system. Infants
+                                           and people who have a liver disease are most at risk."),
+                                         br(),
+                                         h4(strong("Ways to reduce manganese in your drinking water")),
+                                         p("Small amounts of manganese can sometimes be removed effectively by water softeners. Larger concentrations of manganese may require special treatment such as an oxidation unit."),
+                                ),
+                                tabPanel("Potassium",
+                                         h4(strong("What is Potassium")),
+                                         p("Potassium is normally less than 5 mg/L in Wisconsin groundwater."),
+                                         br(),
+                                         h4(strong("Why test for Potassium")),
+                                         p("Potassium is essential for a variety of human health functions, although the amount obtained through drinking water
+                                           is generally small compared to intake through food consumption. Potassium may be elevated in softened water if you
+                                           are using potassium chloride as a softener salt."),
+                                ),
+                                tabPanel("Sodium",
+                                         h4(strong("What is Sodium")),
+                                         p("Natural levels are generally less than 5 mg/L in Wisconsin groundwater, except in some areas of eastern Wisconsin
+                                           where groundwater is drawn from deep sandstone layers. It may be elevated from water softeners, road salt or 
+                                           septic effluent."),
+                                         br(),
+                                         h4(strong("Why test for Sodium")),
+                                         p("Sodium is associated with increased blood pressure in susceptible populations. The USEPA and American Health
+                                           Associated recommend less than 20 mg/L in drinking water for those individuals on a physician described 
+                                           no salt diet."),
+                                ),
+                                tabPanel("Sulfate",
+                                         h4(strong("What is Sulfate")),
+                                         p("Sulfate is naturally occurring in groundwater in some parts of Wisconsin."),
+                                         br(),
+                                         h4(strong("Why test for Sulfate")),
+                                         p("Sulfate concentrations over 250 mg/L may give water an off taste and cause diarrhea in people not accustomed to
+                                           consuming the water. Sulfate over 500 mg/L may lower milk production and butterfat production in dairy cows."),
+                                ),
+                                tabPanel("Phosphorus",
+                                         h4(strong("What is Phosphorus")),
+                                         p("Phosphorus is naturally occurring at low levels in groundwater. It is an essential nutrient for plants and can contribute to euthrophication (excessive aquatic plant/algae growth) in lakes and rivers."),
+                                         br(),
+                                         h4(strong("Why test for Phosphorus")),
+                                         p("There are no health concerns associated with phosphorus at levels typically found in groundwater. Phosphorus levels in groundwater are generally low; however, elevated levels of Phosphorus concentrations may result from dissolution of phosphorus rich minerals."),
+                                )
+                              )),
+                     tabPanel("LEARN about other Variables",
+                              tabsetPanel(
+                                  tabPanel("Land Cover Types",
+                                         h4(strong("What does land cover have to do with well water quality?")),
+                                         p("Land use plays an important role in certain water quality tests. Nitrate
+                                           and chloride in particular can be influenced by land cover type. The relationship
+                                           between various land cover types will be investigated further in future years. 
+                                           These relationships can be used to develop statistical models that can help 
+                                           predict nitrate and or chloride concentrations."),
+                                         br(),
+                                         tags$div(wiscland),
+                                         h4(strong("Land cover categories")),
+                                         br(),
+                                         p("For each well, the Wiscland 2.0 dataset was used to calculate the percentage of various agricultural land cover types
+                                           within a 500 meter buffer around each well."),
+                                         p("Click on the 'Variable' tab above the map to the left to display wells by:"),
+                                         tags$ul(
+                                           tags$li("All Agriculture - Row Crops + Dairy Rotation + Hay/Pasture"),
+                                           tags$li("Row Crops (Continuous Corn or Cash Grain) - Corn grain or corn silage grown every year in a 6-year 
+                                                   rotation, or corn grain and soybean plantings alternate each year."),
+                                           tags$li("Dairy Rotation - Corn grain, corn silage, and alfalfa in a 6 year-rotation, with typically 2 years of corn, 4 years of
+                                                   alfalfa, and a cover crop between corn and alfalfa years."),
+                                           tags$li("Hay/Pasture - Lands covered by planted perennial herbaceous vegetation and harvested for use as livestock forage
+                                                   or lands covered by herbaceous vegetation, primarily perennial grasses, used for grazing livestock.")
+                                         ),
+                                         br(),
+                                         h4(strong("Nitrogen fertilizer recommendations by crop type")),
+                                         p("Nitrogen fertilizer recommendations vary by crop type, as a result there is often a relationship between the 
+                                           types of crops/rotations and well water quality. Not all of the nitrogen applied as fertilizer/manure is taken up by 
+                                           the plants. Heavy rains during the growing season can push nitrate past the reach of plant roots; any nitrate left over
+                                           after the growing season is likely to leach into groundwater with fall rains and/or spring snow melt."),
+                                         br(),
+                                         tags$div(crop_nrates),
+                                         h4(strong("Nitrate leaching potential")),
+                                         p("Diagram below illustrates the relationship between nitrate leaching and crop type when using economic optimal rates."),
+                                         tags$div(leaching_potential),
+                                         
+                                ),
+                                tabPanel("Quaternary Geology Type",
+                                         h4(strong("Why are we interested in Quaternary Geology?")),
+                                         p("Different geologic deposits have different chemical compositions that can influence tests such as
+                                           total hardness, alkalinity, and pH. The type of unconsolidated sediment also helps determine how quickly water infiltrates and can also influence how easily 
+                                           groundwater can become contaminated. For instance water moving through sand and gravel will move quicker 
+                                           than water moving through clays or lake sediments."),
+                                         #br(),
+                                         #tags$div(quaternary_geology),
+                                         p("The source of the data is from Quaternary Geology of Jefferson County, Wisconsin. For additional information on the Quarternary geology of Jefferson County see:
+                                           Ives, Libby R.W., and Rawling, J.E. III. 2022. Quaternary geology of Jefferson County, Wisconsin: Wisconsin Geological and Natural History Survey Bulletin 118, 34.p., 1 plate, scale 1:100,000, https://doi.org/10.54915/minc7835."),
+                                ),
+                                tabPanel("Soil Drainage Rank",
+                                         h4(strong("What Does the soil drainage classification tell us?")),
+                                         p("Soil drainage influences how quickly water and also certain contaminants can move through the soil.
+                                           The faster water is able to move through, the more easily dissolved ions such as nitrate and chloride can move past the root zone
+                                           of plants. In addition, soils that are able to hold onto water longer mean plants have a greater ability to utilize water 
+                                           and nutrients stored in the soil profile, reducing the risk of losing nutrients to groundwater."),
+                                         tags$div(soils),
+                                         br(),
+                                         h4(strong("Order and description of soil drainage rank")),
+                                         p("Soil drainage classification of land within a 500 meter buffer of the well was calculated from the NRCS
+                                           SSURGO database. A weighted rank was determined using the following rankings:"),
+                                         tags$ul(
+                                           tags$li("(1) Excessively drained - Water is removed very rapidly. Internal free water occurrence
+                                            is very rare or very deep. The soils are often coarse-textured and have very high hydraulic 
+                                            conductivity."),
+                                           tags$li("(2) Somewhat excessively drained - Water is removed from the soil rapidly. Internal 
+                                            free water occurrence is very rare or very deep. The soils are commonly coarse-textured 
+                                            and have high saturated hydraulic conductivity."),
+                                           tags$li("(3) Well drained - Water is removed from the soil readily but not rapidly. Internal free 
+                                            water occurrence is deep or very deep; annual duration is not specified. Water is available 
+                                            to plants throughout most of the growing season in humid regions. Wetness does not inhibit growth of 
+                                            roots for significant periods during most growing seasons. The soils are mainly free of the deep to 
+                                             redoximorphic features that are related to wetness."),
+                                           tags$li("(4) Moderately well drained - Water is removed from the soil somewhat slowly during 
+                                             some periods of the year. Internal free water occurrence is moderately deep and 
+                                            transitory through permanent. The soils are wet for only a short time within the rooting 
+                                            depth during the growing season, but long enough that most mesophytic crops are affected. 
+                                            They commonly have a moderately low or lower saturated hydraulic conductivity in a layer
+                                            within the upper 1 m, periodically receive high rainfall, or both."),
+                                           tags$li("(5) Somewhat poorly drained - Water is removed slowly so that the soil is wet at 
+                                            a shallow depth for significant periods during the growing season. The occurrence of 
+                                            internal free water commonly is shallow to moderately deep and transitory to permanent. 
+                                            Wetness markedly restricts the growth of mesophytic crops, unless artificial drainage
+                                            is provided. The soils commonly have one or more of the following characteristics: 
+                                            low or very low saturated hydraulic conductivity, a high water table, additional water from 
+                                            seepage, or nearly continuous rainfall."),
+                                           tags$li("(6) Poorly drained - Water is removed so slowly that the soil is wet at 
+                                            shallow depths periodically during the growing season or remains wet for long 
+                                            periods. The occurrence of internal free water is shallow or very shallow and common or 
+                                            persistent. Free water is commonly at or near the surface long enough during the growing 
+                                            season so that most mesophytic crops cannot be grown, unless the soil is artificially 
+                                            drained. The soil, however, is not continuously wet directly below plow-depth. Free water 
+                                            at shallow depth is usually present. This water table is commonly the result of low or 
+                                            very low saturated hydraulic conductivity of nearly continuous rainfall, or of a combination of these."),
+                                           tags$li("(7) Very poorly drained - Water is removed from the soil so slowly that free water 
+                                            remains at or very near the ground surface during much of the growing season. The occurrence 
+                                            of internal free water is very shallow and persistent or permanent. Unless the soil is 
+                                            artificially drained, most mesophytic crops cannot be grown. The soils are commonly level or 
+                                            depressed and frequently ponded. If rainfall is high or nearly continuous, slope gradients may be greater."),
+                                         ),
+                                         br(),
+                                         h4(strong("How soil drainage classification influences nitrate leaching loss")),
+                                         p("Diagram showing the relationship between crop type and soil drainage classification on water quality with respect to nitrate."),
+                                         tags$div(leaching_wsoils),
+                                ),
+                                tabPanel("Casing Below Water Table",
+                                         h4(strong("What is casing depth below the water table?")),
+                                         p("Casing helps to determine how far below the ground your well accesses groundwater. Casing helps to prevent loose rock or soil 
+                                         from getting into your well. Casing also determines where within the aquifer your well is receiving its water. Wells that are 
+                                         cased into the water table generally provide water that is deeper and generally older. Wells cased deeper into the water table often times have lower levels of 
+                                           contaminants such as nitrate and chloride. This may depend on a variety of other factors such as where you are located and what types of
+                                           bedrock your well is drilled into."),
+                                         br(),
+                                         h4(strong("Casing depth below the water table (feet)")),
+                                         p("Diagram below illustrates the role of casing depth in reference to the water table. Colors correspond to map legend for the variable
+                                           'Casing depth below water table'."),
+                                         tags$div(casing),
+                                )
+                                )),
+                     tabPanel("EXPLORE project data",
+                              tabsetPanel(
+                     #            tabPanel("County Trends",
+                     #                     h4(strong("Investigate Trends")),
+                     #                     p("Overall trends can be visualized by comparing data from wells tested over multiple years. 
+                     #                        For the purposes of this analysis, only wells that participated in all sampling years are included. As a result
+                     #                        from year to year, the data summaries (i.e. mean, median, min, max, etc) may be slightly different depending on how many
+                     #                        and which wells drop out of the project."),
+                     #                     p("Select an analyte to see annual comparisons for each analyte."),
+                     #                    selectInput("trend_analyte",
+                     #                                 "Select analyte:",
+                     #                                 choices = c("Nitrate","Alkalinity","Chloride","Total Hardness","pH","Conductivity"),
+                     #                                 selected = "Nitrate",
+                     #                                 width = 300
+                     #                     ),
+                     #                     br(),
+                     #                     plotlyOutput("index_fig", height = 300),
+                     #                     br(),
+                     #                     h4(strong("Visualizing Trends")),
+                     #                     p("The following figure displays all wells on the horizontal axis. 
+                     #                      Depending on which analyte is selected, the concentration for each year is displayed 
+                     #                      vertically. Wells are arranged from the highest average concentration on the left to the lowest on the right. 
+                     #                      Color changes vertically indicate wells with greater variability. Clicking on the figure 
+                     #                      will allow you to zoom into a particular part of the figure for more detail."),
+                     #                     plotlyOutput("trend_fig", height = 400)
+                     #            ),
+                                tabPanel("Individual Wells",  
+                                         h4(strong("Investigate Water Quality by Individual Well")),
+                                         p("One of the major goals of the project is to understand baseline well water quality spatially in Jefferson County.  
+                                          By sampling many wells at the same time, we can better understand what water quality parameters are a concern and how they vary throughout the county.
+                                           Investigating the relationship of well water quality to various factors can also help us understand what factors contribute to variability in well water quality of Jefferson County."),
+                                         br(),
+                                         p("Well Water Project IDs have been assigned specifically for this project. If you are 
+                                          a participant and know your well's Project ID, you can select or enter from the drop-down menu. Otherwise if you are 
+                                          interested in learning about a particular point on the map, simply click on the point and enter that Project ID into 
+                                          the drop down menu. In order to maintain anonymity, Project IDs have
+                                          only been shared with project participants for their individual well."),
+                                         br(),
+                                         selectInput("r",
+                                                     "Select or enter a Project ID number:",
+                                                     choices = df$PROJECT_ID,
+                                                     selected = "",
+                                                     width = 300
+                                         ),
+                                         plotlyOutput("well_nitrate", height = 250),
+                                         plotlyOutput("well_chloride", height = 250),
+                                         plotlyOutput("well_alkalinity", height = 250),
+                                         plotlyOutput("well_hardness", height = 250),
+                                         plotlyOutput("well_conductivity", height = 250),
+                                         plotlyOutput("well_ph", height = 250),
+                                         plotlyOutput("well_Arsenic", height = 250),
+                                         plotlyOutput("well_Calcium", height = 250),
+                                         plotlyOutput("well_Iron", height = 250),
+                                         plotlyOutput("well_Phosphorus", height = 250),
+                                         plotlyOutput("well_Manganese", height = 250),
+                                         plotlyOutput("well_Sulfate", height = 250),
+                                         plotlyOutput("well_Potassium", height = 250),
+                                         plotlyOutput("well_Magnesium", height = 250),
+                                         plotlyOutput("well_Sodium", height = 250)
+                                ),
+                                
+                                tabPanel("Municipality",
+                                         h4(strong("Investigate Water Quality by Municipality")),
+                                         p("Well water quality can be aggregated and displayed by municipality. Select a parameter 
+                                           from the drop down menu to display the summary statistics as box plots by town. Hover 
+                                           over the box plot to see values for mean, median, minimum, maximum values."),
+                                         br(),
+                                         p("The drop down menu can also be used to view data for a particular year of the project."),
+                                         selectInput("analyte",
+                                                     "Select analyte:",
+                                                     choices = c("Nitrate","Alkalinity","Chloride","Total Hardness","pH","Conductivity","Arsenic","Calcium","Iron"
+                                                                 ,"Manganese","Phosphorus","Sulfate","Potassium","Magnesium","Sodium"),
+                                                     selected = "Nitrate",
+                                                     width = 300
+                                         ),
+                                         selectInput("year_muni",
+                                                     "Select Year:",
+                                                     choices = c("2023"),
+                                                     selected = "2023",
+                                                     width = 300
+                                         ),
+                                         br(),
+                                         plotlyOutput("select_analyte", height = 400)
+                                ),
+                                tabPanel("Wells, Geology, & Land Cover",
+                                         h4(strong("Investigate Water Quality by Well and other Land Use Factors")),
+                                         p("The following figures allow you to investigate well water quality grouped by different
+                                           variables and categories. Boxplots help to illustrate results by year within the individual 
+                                           categories. Please note that not all variables impact well water quality the same.
+                                           For instance, land cover categories might be important for nitrate while quaternary geology could be important for hardness and alkalinity.                                           important for things like hardness or alkalinity. More information on these variables can 
+                                           More information on the variables can be found by selecting the 'LEARN about other variables' tab."),
+                                         br(),
+                                         p("The drop down menu can also be used to select a particular analyte of interest. All figures
+                                           will update to display the selected analyte. Please be patient, it may take a few moments for
+                                           figures to be updated."),
+                                         selectInput("wl_analyte",
+                                                     "Select Analyte:",
+                                                     choices = c("Nitrate",
+                                                                 "Chloride",
+                                                                 "Alkalinity",
+                                                                 "pH",
+                                                                 "Conductivity",
+                                                                 "Total Hardness",
+                                                                 "Arsenic",
+                                                                 "Calcium",
+                                                                 "Iron",
+                                                                 "Manganese",
+                                                                 "Phosphorus",
+                                                                 "Sulfate",
+                                                                 "Potassium",
+                                                                 "Magnesium",
+                                                                 "Sodium"),
+                                                     selected = "Nitrate",
+                                                     width = 300
+                                         ),
+                                         br(),
+                                         plotlyOutput("wl_AG_HAY_PAST_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_AG_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_DAIRY_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_HAY_PAST_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_DRAIN_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_DB_WT_CAT", height = 400),
+                                         br(),
+                                         plotlyOutput("wl_QUATERNARY", height = 400)
+                                    ),
+                                
+                                tabPanel("County Summary Statistics",
+                                         tabPanel("County Summary",
+                                         h4(strong("Investigate County-wide Summary Statistics")),
+                                         p("Summary statistics for the county can be generated for all wells tested as part 
+                                         of the 2023 monitoring efforts: "),
+                                         selectInput("cty_year",
+                                                     "Select Year:",
+                                                     choices = c("2023"),
+                                                     selected = "2023",
+                                                     width = 300
+                                         ),
+                                         br(),
+                                         rHandsontableOutput("cty_summary_table", height = 300),
+                                         p("Select an analyte to see summary statistics for all wells tested during the Jefferson County sampling. 
+                                         The number of wells sampled is written below each box plot."),
+                                         selectInput("cty_analyte",
+                                                     "Select analyte:",
+                                                     choices = c("Nitrate","Alkalinity","Chloride","Total Hardness","pH","Conductivity","Arsenic","Calcium",
+                                                                 "Iron","Manganese","Phosphorus","Sulfate","Potassium","Magnesium","Sodium"),
+                                                     selected = "Nitrate",
+                                                     width = 300
+                                         ),
+                                         plotlyOutput("county_analyte", height = 400))
+                                        )
+                                )
+                     ),
+                                  
+                              
+                
+                   tabPanel("Conclusions and Recommendations",
+                          h4(strong("Conclusions and Recommendations")),
+                          p("A total of 828 private wells were analyzed for fifteen common well water quality parameters of 
+                          interest to drinking water and environmental quality monitoring efforts."),
+                          br(),
+                          p("The wells selected were intended to 
+                          be a representation of the diverse land cover, soils, and geology that influence groundwater quality 
+                          accessed by the rural residents and communities of Jefferson County. Participation was voluntary; 
+                          all participants received a copy of their individual results along with interpretive information. 
+                          The results of this work provide baseline data on the extent and geographic occurrence of both natural 
+                          and human-induced contaminants."),
+                          br(),
+                          p("In addition, this work provides an overall assessment of well quality of 
+                          Jefferson County at a point in time. Outcomes of this work include: 1) the identification of factors 
+                          responsible for well water quality, 2) characterizing the spatial extent and occurrence of various 
+                          chemical parameters, 3) identifying avenues for potential investigations, and 4) providing a solid 
+                          foundation for future studies on groundwater quality changes or trends."),
+                          br(),
+                          p("Regarding recommendations for well water testing, rural residences served by private wells are 
+                            encouraged to test annually for common water quality parameters such as nitrate and bacteria. 
+                            Given the prevalence of arsenic in Jefferson County, arsenic testing should also be encouraged 
+                            on every well at least once, and more frequently if levels are elevated. Chloride and conductivity 
+                            are also good indicators of changes in water quality and provide valuable insight into trends if 
+                            sampled routinely."), 
+                          br(),
+                          p("Common barriers to well water testing include not knowing what to sample and not knowing where 
+                          to submit samples. Ways that the county could assist these efforts include:"),
+                          tags$ul(
+                            tags$li("Devoting staff time to organizing or facilitating convenient local well water testing 
+                          opportunities to remove common barriers of testing."),
+                            tags$li("If funding exists, subsidizing the cost of testing could also be an option to collect 
+                          more data and assist residents of Jefferson County."),
+                            tags$li("One of the project deliverables includes a parcel level nitrate and chloride risk 
+                          potential dataset. This information could be utilized to prioritize testing efforts or 
+                          subsidized testing in those areas most likely to be impacted.")
+                          ), 
+                          br(),
+                          p("Other counties have initiated trend monitoring programs for assessment of nitrate and 
+                          chloride trends; the current dataset creates an initial baseline to begin assessment of trends. 
+                          Moving forward, testing a subset of the 828 wells annually could provide valuable information on 
+                          whether Jefferson County groundwater quality is getting better, worse, or staying the same with 
+                          respect to common water quality parameters."),
+                          br(),
+                          p("Geology influences certain aspects of well water quality including but not limited to arsenic, 
+                          manganese, and other aesthetic concerns such as iron and hardness.  Jefferson County has a greater 
+                          occurrence of arsenic than what is typically seen statewide. Arsenic in Wisconsin is generally 
+                          associated with geologic influence; and collecting more detailed geologic data in the Towns of 
+                          Ixonia and Watertown could potentially inform well construction methods to avoid layers prone to 
+                          arsenic.  Consultation with Wisconsin Geologic and Natural History Survey who performed Quaternary 
+                          and bedrock mapping of Jefferson County could help with understanding the extent of arsenic and 
+                          associations of geology with other elements."),
+                          br(),
+                          p("Other major factors that affect groundwater quality in Jefferson County include land uses 
+                          such as agricultural practices and development density. Forest, prairie, and wetlands continue 
+                          to diminish but are long known to have proven groundwater quality benefits; maintaining what 
+                          remains of landscape diversity by protecting existing natural areas should be a priority."),
+                          br(),
+                          p("When it comes to improving groundwater quality in agricultural areas, many farm fields would 
+                          benefit from additional conservation practices."),
+                          tags$ul(
+                            tags$li("If funding or staffing is limited, focusing implementation on those areas identified as having 
+                            a greater risk for nitrate contamination should be prioritized.")),
+                          p("Where not already implemented, the following conservation practices will have benefits to 
+                            groundwater quality, however some will have greater impacts than others."),
+                          tags$ul(
+                            tags$li("Highest impact practices include conservation reserve program, prairie establishment, 
+                            managed grazing, planting of perennial vegetation, restoring wetlands."),
+                            tags$li("Medium impact practices include cover crops, taking underperforming portions of the field 
+                            out of production, diversifying crop rotations to include lower nitrogen demanding crops."),
+                            tags$li("Although the following would be considered low-impact compared to those previously mentioned, 
+                            these do have benefits and are more easily adopted and should be encouraged on every farm: participation in 
+                            nitrogen optimization programs to establish on farm economic optimal nitrogen 
+                            fertilizer recommendations, not applying fall nitrogen, applying manure to actively growing crop, 
+                            split application of nitrogen fertilizer, and crediting of nitrogen from irrigation water 
+                            (where applicable).")),
+                          br(),
+                          p("Expansion of roads, parking lots, housing, and other development also will impact water 
+                          quality in Jefferson County. Lawns, road salting activities, and septic system density are 
+                          factors known to influence the quality of groundwater supplied to private wells. The following 
+                          practices should be considered in areas near low, medium, or high development density: 
+                          In new subdivisions:"),
+                          tags$ul(
+                            tags$li("Consider community sewer and water to avoid impacts of adjacent septic systems on nearby private 
+                          wells."),
+                            tags$li("Encourage testing for additional health related parameters such as PFAS which have shown an 
+                          association with this type of land-use."),
+                            tags$li("Homeowners should be encouraged to minimize fertilizer and pesticide use to limit the potential 
+                          of these chemicals impacting neighboring wells and/or minimize lawns to maintain as much natural 
+                          landscaping as possible."),
+                            tags$li("Work to educate homeowners and contractors on best practices for winter road salting.")),
+                          br(),
+                          p("The results summarized in this report provide an overview of typical well water quality and 
+                          spatial variability. It is not a replacement for individual well water testing but does highlight 
+                          relationships to land use and geology which can be used to guide future testing and management 
+                          efforts in Jefferson County. While the wells tested are a small number of all private wells in 
+                          the county, the Center remains committed to helping utilize this information to the benefit of all 
+                          Jefferson County residents.")
+                  
+                   )
+                   )
+                   )
+      )
+)
+  
+  
