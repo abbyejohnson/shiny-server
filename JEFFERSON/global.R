@@ -21,7 +21,7 @@ library(rhandsontable)
 library(vtable)
 
 #Change to reflect date of data updates
-modified <- "March 1, 2023"
+modified <- "November 1, 2024"
 
 df <- read.csv("JEFF_WELL_ALLDATA_20240723.csv", header = TRUE)
 #df <- read.csv("JEFFERSON_wWell_Construction_v3.csv", header = TRUE)
