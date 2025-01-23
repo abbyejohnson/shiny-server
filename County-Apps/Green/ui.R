@@ -51,7 +51,7 @@ ui = fluidPage(
                 div(logo,uwsp,uwex),
                 br(),
                 div(strong("Center for Watershed Science and Education in partnership with Green County")),
-                div("Created by: Kevin Masarik, Abby Johnson, Grant Moser, and Jennifer Dierauer"),
+                div("Created by: Kevin Masarik, Abby Johnson, Grant Moser, Victoria Solomon and Jennifer Dierauer"),
                 div("Last modified:", modified,'.', a(href="mailto:gndwater@uwsp.edu","Contact us for questions")),
       ),
       position = NULL,
