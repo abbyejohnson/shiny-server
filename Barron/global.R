@@ -17,7 +17,7 @@ library(tidyr)
 library(plotly)
 #library(ggpubr)
 library(rhandsontable)
-library(vtable)
+#library(vtable)
 
 #Change to reflect date of data updates
 modified <- "January 31, 2025"
