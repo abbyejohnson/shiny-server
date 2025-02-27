@@ -32,7 +32,7 @@ df_stats <- df %>% group_by(PROJECT_ID) %>% summarise_at(c("Nitrate","Alkalinity
                                                          list(mean=mean, median=median, min=min,max=max, sum=sum, sd=sd), na.rm = TRUE)
 df_stats$nitrate_diff <- df_stats$Nitrate_max - df_stats$Nitrate_min
 df <- left_join(df,df_stats,by = "PROJECT_ID")
-write.csv(df,file = "KEWAUNEE_wSTATS.csv", row.names = FALSE)
+#write.csv(df,file = "KEWAUNEE_wSTATS.csv", row.names = FALSE)
 df$nitrate_direction <- ifelse(df$Nitrate_mean < df$Nitrate, df$nitrate_diff, -1*df$nitrate_diff)
 #df$Top.Bedrock <- ifelse(df$Top.Bedrock == "SHALE" | df$Top.Bedrock == "", "No Info", df$Top.Bedrock)
 df$TOWNSHIP <- toupper(df$TOWNSHIP)
