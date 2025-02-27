@@ -1,4 +1,4 @@
-setwd("G:/usr/R_PROJECTS/KEWAUNEE_CALUMET/KEWAUNEE")
+#setwd("G:/usr/R_PROJECTS/KEWAUNEE_CALUMET/KEWAUNEE")
 
 library(shiny)
 library(leaflet)
@@ -20,7 +20,7 @@ library(plotly)
 library(rhandsontable)
 
 #Change to reflect date of data updates
-modified <- "FEBRUARY 27, 2024"
+modified <- "FEBRUARY 27, 2025"
 
 #df <- read.csv("ALL_COUNTIES_DATA_MERGE_20230215.csv", header = TRUE)
 #df <- read.csv("ALL_COUNTIES_DATA_TRENDS_2024.csv", header = TRUE)
