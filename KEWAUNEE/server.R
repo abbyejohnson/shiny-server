@@ -751,6 +751,7 @@ server = function(input, output, session) {
         geom_hline(yintercept = 10 , linetype = "dashed" , color = "red") +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1), axis.title = element_text(size = 11.5, face="bold")) +
         ylab("mg/L") +
         labs(title="Nitrate-Nitrogen")
       
@@ -774,6 +775,7 @@ server = function(input, output, session) {
         #annotation_logticks(sides = "l") +
         theme(axis.title.x = element_blank()) +
         scale_x_continuous(breaks = seq(min(df2$YEAR), max(df2$YEAR), by = 1)) +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1), axis.title = element_text(size = 11.5, face="bold")) +
         ylab("mg/L") +
         labs(title="Chloride")
       
