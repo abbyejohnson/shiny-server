@@ -39,7 +39,7 @@ ui = fluidPage(
                                        "Potassium" = "Potassium",
                                        "Magnesium" = "Magnesium",
                                        "Sodium" = "Sodium",
-                                       "Nitrate Variability" = "Nitrate_sd",
+                                       #"Nitrate Variability" = "Nitrate_sd",
                                        "Percent Row Crops" = "ROWCROP",
                                        "Percent Dairy Rotation" = "DAIRY_PERC",
                                        "Percent Hay/Pasture" = "HAY_PAST",
@@ -500,18 +500,18 @@ ui = fluidPage(
                                            'Casing depth below water table'."),
                                          tags$div(casing),
                                 ),
-                                tabPanel("Nitrate Variability",
-                                         h4(strong("Why are we interested in nitrate variability?")),
-                                         p("Variability helps us understand which wells are changing. Wells that are changing are more likely to have trends and may 
-                                           also suggest wells that are more strongly influenced by the surrounding land use. Small fluctuations in nitrate-nitrogen 
-                                           concentrations are to be expected. Wells with variability greater than 1 mg/L may be more responsive to land use changes,
-                                           or indicative of wells that might have significant increasing/decreasing trends.  
-                                           Other wells may simply go up and down each year because of weather or other factors such as crop rotations. More years of data are required 
-                                           in order to analyze for trends. As we obtain more years of data, we will be able to determine whether variability represents 
-                                           actual trends or just wells that might be more susceptible to fluctuations."),
-                                         br(),
-                                         p("Data on individual wells over time can be viewed for each parameter by clicking on the 'EXPLORE Project Data > 'Individual Wells' tab."),
-                                        )
+                               # tabPanel("Nitrate Variability",
+                               #          h4(strong("Why are we interested in nitrate variability?")),
+                               #          p("Variability helps us understand which wells are changing. Wells that are changing are more likely to have trends and may 
+                               #            also suggest wells that are more strongly influenced by the surrounding land use. Small fluctuations in nitrate-nitrogen 
+                               #            concentrations are to be expected. Wells with variability greater than 1 mg/L may be more responsive to land use changes,
+                               #            or indicative of wells that might have significant increasing/decreasing trends.  
+                               #            Other wells may simply go up and down each year because of weather or other factors such as crop rotations. More years of data are required 
+                               #            in order to analyze for trends. As we obtain more years of data, we will be able to determine whether variability represents 
+                               #            actual trends or just wells that might be more susceptible to fluctuations."),
+                               #          br(),
+                               #          p("Data on individual wells over time can be viewed for each parameter by clicking on the 'EXPLORE Project Data > 'Individual Wells' tab."),
+                               #         )
                               )),
                      tabPanel("EXPLORE project data",
                               tabsetPanel(
