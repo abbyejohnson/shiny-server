@@ -486,20 +486,20 @@ ui = fluidPage(
                                          h4(strong("How soil drainage classification influences nitrate leaching loss")),
                                          p("Diagram showing the relationship between crop type and soil drainage classification on water quality with respect to nitrate."),
                                          tags$div(leaching_wsoils),
-                                ),
-                                tabPanel("Casing Below Water Table",
-                                         h4(strong("What is casing depth below the water table?")),
-                                         p("Casing helps to determine how far below the ground your well accesses groundwater. Casing helps to prevent loose rock or soil 
-                                         from getting into your well. Casing also determines where within the aquifer your well is receiving its water. Wells that are 
-                                         cased into the water table generally provide water that is deeper and generally older. Wells cased deeper into the water table often times have lower levels of 
-                                           contaminants such as nitrate and chloride. This may depend on a variety of other factors such as where you are located and what types of
-                                           bedrock your well is drilled into."),
-                                         br(),
-                                         h4(strong("Casing depth below the water table (feet)")),
-                                         p("Diagram below illustrates the role of casing depth in reference to the water table. Colors correspond to map legend for the variable
-                                           'Casing depth below water table'."),
-                                         tags$div(casing),
-                                ),
+                                )
+                               # tabPanel("Casing Below Water Table",
+                               #          h4(strong("What is casing depth below the water table?")),
+                               #          p("Casing helps to determine how far below the ground your well accesses groundwater. Casing helps to prevent loose rock or soil 
+                               #          from getting into your well. Casing also determines where within the aquifer your well is receiving its water. Wells that are 
+                               #          cased into the water table generally provide water that is deeper and generally older. Wells cased deeper into the water table often times have lower levels of 
+                               #            contaminants such as nitrate and chloride. This may depend on a variety of other factors such as where you are located and what types of
+                               #            bedrock your well is drilled into."),
+                               #          br(),
+                               #          h4(strong("Casing depth below the water table (feet)")),
+                               #          p("Diagram below illustrates the role of casing depth in reference to the water table. Colors correspond to map legend for the variable
+                               #            'Casing depth below water table'."),
+                               #          tags$div(casing),
+                               # ),
                                # tabPanel("Nitrate Variability",
                                #          h4(strong("Why are we interested in nitrate variability?")),
                                #          p("Variability helps us understand which wells are changing. Wells that are changing are more likely to have trends and may 
