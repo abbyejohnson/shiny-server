@@ -1422,8 +1422,8 @@ server = function(input, output, session) {
           ylab("Manganese (mg/L)") +
           labs(title="Summary of Manganese Concentration by Town")
         
-      }else if (input$analyte == "P") {
-        ggplot(df3, aes(x = TOWNSHIP, y = Phosphorus)) +
+      }else if (input$analyte == "Phosphorus") {
+        ggplot(df3, aes(x = TOWNSHIP, y = P)) +
           geom_boxplot() +
           stat_summary(fun=mean, colour="blue", geom="point", 
                        shape=5, size=3) +
