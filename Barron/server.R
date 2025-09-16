@@ -893,7 +893,7 @@ server = function(input, output, session) {
                       layerId = as.vector(shape@data$OBJECTID),
                       stroke = T, color = "black",
                       smoothFactor = 1, weight = 1,
-                      fillColor = ~pal2(fill.vals), fillOpacity = 0.9,
+                      fillColor = ~pal1(fill.vals), fillOpacity = 0.9,
                       popup = paste0(shape@data$Municipality,
                                      "<br><strong>Arsenic (standard units)</strong>",
                                      "<br>Average: ", round(shape@data$Arsenic,1),
@@ -902,7 +902,7 @@ server = function(input, output, session) {
                                      "<br>Median: ", shape@data$Arsenic_med,
                                      "<br>Number of Samples: ", shape@data$cnt_n),
                       highlight = highlightOptions(weight = 2.5, fillOpacity = 0.9, bringToFront = T)) %>%
-          addLegend("bottomleft", pal = pal2, values = fill.vals, title = paste(input$var), opacity = 1)
+          addLegend("bottomleft", pal = pal1, values = fill.vals, title = paste(input$var), opacity = 1)
         
       }else if (input$var == "Calcium"){
         
@@ -4500,3 +4500,4 @@ server = function(input, output, session) {
     })
   
 }
+
