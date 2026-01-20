@@ -1337,13 +1337,13 @@ server = function(input, output, session) {
     rhandsontable(table1, rowHeaderWidth = 100, readOnly = TRUE) %>% hot_cols(colWidths = 100)
   })
 
-  #Start of box plots by town 
+  #Start of box plots by county 
   output$index_fig <- renderPlotly({
     
     #Subsetting
     
     
-    df5 <- subset(df, cnt_sum==5)
+    df5 <- subset(df, YEAR >= 2020)
     
     t2 <- {
       
@@ -2265,3 +2265,4 @@ server = function(input, output, session) {
     })
   
 }
+
